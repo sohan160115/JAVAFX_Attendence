@@ -18,10 +18,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -68,6 +70,15 @@ public class RegisterController implements Initializable {
         }
     }
     
+     static void alertbox(String msg){
+                       Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                       alert.initStyle(StageStyle.UTILITY);
+                       alert.setTitle("Popup Message");
+                       alert.setHeaderText(null);
+                       alert.setContentText(msg);
+                       alert.showAndWait();
+    }
+    
      public void dbTeacher(){
         
         String name= tuser.getText();
@@ -75,7 +86,8 @@ public class RegisterController implements Initializable {
         String email= temail.getText();
         
          if(name.equals("") && password.equals("")){
-               System.out.println("Username or password blank");
+               
+                alertbox("Username or password blank");
          }
          
          else{
@@ -90,13 +102,14 @@ public class RegisterController implements Initializable {
                   int rows=statement.executeUpdate();
                   
                   if(rows>0){
-                       System.out.println("One row Added");
+                      alertbox("Your information is succesfully recorded in Database");
                   }
                   
           
              }
              catch(SQLException ex){
-                 System.out.println("Not connected to the database");
+                 
+                 alertbox("Not connected to the database");
                  
              }
              
@@ -112,6 +125,7 @@ public class RegisterController implements Initializable {
         
          if(name.equals("") && password.equals("")){
                System.out.println("Username or password blank");
+               
          }
          
          else{
@@ -127,6 +141,13 @@ public class RegisterController implements Initializable {
                   
                   if(rows>0){
                        System.out.println("One row Added");
+                       Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                       alert.initStyle(StageStyle.UTILITY);
+                       alert.setTitle("success");
+                       alert.setHeaderText(null);
+                       alert.setContentText("Infromatin Message");
+                       alert.showAndWait();
+                       
                   }
                   
           

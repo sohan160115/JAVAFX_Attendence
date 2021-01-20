@@ -21,12 +21,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -76,13 +78,24 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
+    
+    static void alertbox(String msg){
+                       Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                       alert.initStyle(StageStyle.UTILITY);
+                       alert.setTitle("Popup Message");
+                       alert.setHeaderText(null);
+                       alert.setContentText(msg);
+                       alert.showAndWait();
+    }
+    
     public void dbTeacher(){
         
         String name= tuser.getText();
         String password= tpass.getText();
         
          if(name.equals("") && password.equals("")){
-               System.out.println("Username or password blank");
+               
+               alertbox("Username or password blank");
          }
          
          else{
@@ -96,15 +109,18 @@ public class FXMLDocumentController implements Initializable {
                   result=statement.executeQuery();
                   
                   if(result.next()){
-                       System.out.println("Login Succes");
+                       
+                       alertbox(" Congratulation Login Succes");
                   }
                   
                   else{
-                      System.out.println("Login Failed");
+                      
+                      alertbox("Login Failed");
                   }
              }
              catch(SQLException ex){
-                 System.out.println("Not connected to the database");
+                
+                 alertbox("Not connected to the database");
                  
              }
              
