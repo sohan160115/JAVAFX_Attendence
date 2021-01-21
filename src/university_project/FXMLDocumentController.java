@@ -78,7 +78,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
-    
+    //Alert box function
     static void alertbox(String msg){
                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
                        alert.initStyle(StageStyle.UTILITY);
@@ -86,6 +86,21 @@ public class FXMLDocumentController implements Initializable {
                        alert.setHeaderText(null);
                        alert.setContentText(msg);
                        alert.showAndWait();
+    }
+    //Stage Change Function
+    public void stageChange(String msg){
+          try{
+            Stage stage = new Stage();
+        FXMLLoader fxmlloader= new FXMLLoader();
+        Pane root = fxmlloader.load(getClass().getResource(msg).openStream());
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
+        }
+        
+        catch(IOException e){
+            e.printStackTrace();
+            
+        }
     }
     
     public void dbTeacher(){
@@ -164,18 +179,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void Register(ActionEvent event) {
-         try{
-            Stage stage = new Stage();
-        FXMLLoader fxmlloader= new FXMLLoader();
-        Pane root = fxmlloader.load(getClass().getResource("Register.fxml").openStream());
-        stage.setScene(new Scene(root));
-        stage.showAndWait();
-        }
-        
-        catch(IOException e){
-            e.printStackTrace();
-            
-        }
+       stageChange("Register.fxml");
         
     }
     
