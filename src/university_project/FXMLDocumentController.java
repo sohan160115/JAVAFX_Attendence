@@ -57,6 +57,9 @@ public class FXMLDocumentController implements Initializable {
     PreparedStatement statement;
     ResultSet result;
     
+    
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -103,10 +106,13 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
+    
+    
     public void dbTeacher(){
         
         String name= tuser.getText();
         String password= tpass.getText();
+        boolean Islogin = true;
         
          if(name.equals("") && password.equals("")){
                
@@ -124,6 +130,12 @@ public class FXMLDocumentController implements Initializable {
                   result=statement.executeQuery();
                   
                   if(result.next()){
+                       
+                       String sq="UPDATE teachers SET Islogin=? where name=?";
+                       statement= con.prepareStatement(sq);
+                       statement.setBoolean(1,Islogin);
+                       statement.setString(2,name);
+                       int rows= statement.executeUpdate();
                        
                        //alertbox(" Congratulation Login Succes");
                        Stage stage = (Stage) btnLogin.getScene().getWindow(); 
@@ -147,9 +159,9 @@ public class FXMLDocumentController implements Initializable {
     }
     
     public void dbHead(){
-         String name= tuser.getText();
+         
+        String name= tuser.getText();
         String password= tpass.getText();
-        
          if(name.equals("") && password.equals("")){
                 alertbox("Username or password blank");
          }
