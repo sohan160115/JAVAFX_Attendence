@@ -126,6 +126,8 @@ public class FXMLDocumentController implements Initializable {
                   if(result.next()){
                        
                        //alertbox(" Congratulation Login Succes");
+                       Stage stage = (Stage) btnLogin.getScene().getWindow(); 
+                       stage.close();
                        stageChange("Dashboard.fxml");
                   }
                   
@@ -164,6 +166,8 @@ public class FXMLDocumentController implements Initializable {
                   
                   if(result.next()){
                        //System.out.println("Login Succes");
+                        Stage stage = (Stage) btnLogin.getScene().getWindow(); 
+                       stage.close();
                        stageChange("Dashboard_Head.fxml");
                   }
                   
