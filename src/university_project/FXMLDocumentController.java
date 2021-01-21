@@ -125,7 +125,8 @@ public class FXMLDocumentController implements Initializable {
                   
                   if(result.next()){
                        
-                       alertbox(" Congratulation Login Succes");
+                       //alertbox(" Congratulation Login Succes");
+                       stageChange("Dashboard.fxml");
                   }
                   
                   else{
@@ -148,7 +149,7 @@ public class FXMLDocumentController implements Initializable {
         String password= tpass.getText();
         
          if(name.equals("") && password.equals("")){
-               System.out.println("Username or password blank");
+                alertbox("Username or password blank");
          }
          
          else{
@@ -162,15 +163,16 @@ public class FXMLDocumentController implements Initializable {
                   result=statement.executeQuery();
                   
                   if(result.next()){
-                       System.out.println("Login Succes");
+                       //System.out.println("Login Succes");
+                       stageChange("Dashboard_Head.fxml");
                   }
                   
                   else{
-                      System.out.println("Login Failed");
+                      alertbox("Login Failed");
                   }
              }
              catch(SQLException ex){
-                 System.out.println("Not connected to the database");
+                 alertbox("Not connected to the database");
                  
              }
              
