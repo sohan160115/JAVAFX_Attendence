@@ -59,14 +59,27 @@ public class DashboardController implements Initializable {
     private Button classLogsBtn;
     @FXML
     private Button dashboardBtn;
+    @FXML
+    private Pane pane1;
+    @FXML
+    private Pane pane2;
+    @FXML
+    private Pane pane3;
+    @FXML
+    private Pane pane4;
 
     /**
      * Initializes the controller class.
+     * 
+     * 
+     * 
      */
+  
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         getUnameEmail();
+        
     }    
 
     @FXML
@@ -132,6 +145,27 @@ public class DashboardController implements Initializable {
                  alertbox("Not connected to the database");
                  
              }
+    }
+
+    @FXML
+    private void dashboardAction(ActionEvent event) {
+        pane1.toFront();
+    }
+
+    @FXML
+    private void AttendenceSheetAction(ActionEvent event) {
+        
+        pane2.toFront();
+    }
+
+    @FXML
+    private void AttendenceRecordAction(ActionEvent event) {
+        pane3.toFront();
+    }
+
+    @FXML
+    private void ClassLogAction(ActionEvent event) {
+        pane4.toFront();
     }
     
 }

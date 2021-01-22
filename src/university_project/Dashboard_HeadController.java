@@ -47,10 +47,6 @@ public class Dashboard_HeadController implements Initializable {
     @FXML
     private Label headEmail;
     @FXML
-    private Label totalStudents;
-    @FXML
-    private Label totalSection;
-    @FXML
     private Label Scheduled;
     @FXML
     private Label logged;
