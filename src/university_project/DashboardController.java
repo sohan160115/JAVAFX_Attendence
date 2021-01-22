@@ -43,6 +43,22 @@ public class DashboardController implements Initializable {
     Statement st;
     PreparedStatement statement;
     ResultSet result;
+    @FXML
+    private Label totalStudents;
+    @FXML
+    private Label totalSection;
+    @FXML
+    private Label Scheduled;
+    @FXML
+    private Label logged;
+    @FXML
+    private Button AttendenceSheetBtn;
+    @FXML
+    private Button AttendenceRecordsBtn;
+    @FXML
+    private Button classLogsBtn;
+    @FXML
+    private Button dashboardBtn;
 
     /**
      * Initializes the controller class.

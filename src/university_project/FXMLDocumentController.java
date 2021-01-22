@@ -177,8 +177,15 @@ public class FXMLDocumentController implements Initializable {
                   result=statement.executeQuery();
                   
                   if(result.next()){
-                       //System.out.println("Login Succes");
-                        Stage stage = (Stage) btnLogin.getScene().getWindow(); 
+                       
+                      String sq="UPDATE heads SET Islogin=? where name=?";
+                       statement= con.prepareStatement(sq);
+                       statement.setBoolean(1,true);
+                       statement.setString(2,name);
+                       int rows= statement.executeUpdate();
+                      
+                      
+                       Stage stage = (Stage) btnLogin.getScene().getWindow(); 
                        stage.close();
                        stageChange("Dashboard_Head.fxml");
                   }

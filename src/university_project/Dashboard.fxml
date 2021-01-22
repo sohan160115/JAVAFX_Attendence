@@ -5,14 +5,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="university_project.DashboardController">
+<AnchorPane id="AnchorPane" prefHeight="706.0" prefWidth="858.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="university_project.DashboardController">
    <children>
-      <AnchorPane layoutX="-1.0" prefHeight="500.0" prefWidth="138.0" style="-fx-background-color: #221A35;">
+      <AnchorPane layoutX="-17.0" layoutY="-20.0" prefHeight="730.0" prefWidth="154.0" style="-fx-background-color: #221A35;">
          <children>
-            <Button fx:id="btnLogout" layoutX="40.0" layoutY="306.0" mnemonicParsing="false" onAction="#logoutAction" text="Log Out" />
+            <Button fx:id="btnLogout" layoutX="20.0" layoutY="411.0" mnemonicParsing="false" onAction="#logoutAction" prefHeight="25.0" prefWidth="124.0" text="Log Out" />
+            <Button fx:id="dashboardBtn" layoutX="20.0" layoutY="198.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Dashboard" />
+            <Button fx:id="AttendenceSheetBtn" layoutX="20.0" layoutY="254.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Attendence Sheet" />
+            <Button fx:id="AttendenceRecordsBtn" layoutX="20.0" layoutY="306.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Attendence Records" />
+            <Button fx:id="classLogsBtn" layoutX="20.0" layoutY="351.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Class Logs" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="137.0" layoutY="-1.0" prefHeight="138.0" prefWidth="565.0" style="-fx-background-color: #fff;">
+      <AnchorPane layoutX="137.0" layoutY="-1.0" prefHeight="138.0" prefWidth="721.0" style="-fx-background-color: #fff;">
          <children>
             <AnchorPane layoutX="14.0" layoutY="22.0" prefHeight="103.0" prefWidth="191.0" style="-fx-background-color: #212A35;">
                <children>
@@ -28,6 +32,38 @@
                      </font>
                   </Label>
                   <Label fx:id="teacherEmail" layoutX="59.0" layoutY="54.0" prefHeight="17.0" prefWidth="167.0" text=" Label" textFill="WHITE" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="255.0" layoutY="22.0" prefHeight="103.0" prefWidth="192.0" style="-fx-background-color: #212A35;">
+               <children>
+                  <Label layoutX="14.0" layoutY="21.0" text="Total Students :" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="totalStudents" layoutX="117.0" layoutY="23.0" prefHeight="17.0" prefWidth="51.0" text="  label" textFill="WHITE" />
+                  <Label layoutX="14.0" layoutY="52.0" text="Total Section :" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="totalSection" layoutX="113.0" layoutY="54.0" prefHeight="17.0" prefWidth="59.0" text=" Label" textFill="WHITE" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="495.0" layoutY="22.0" prefHeight="103.0" prefWidth="192.0" style="-fx-background-color: #212A35;">
+               <children>
+                  <Label layoutX="14.0" layoutY="21.0" text="Scheduled :" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="Scheduled" layoutX="96.0" layoutY="23.0" prefHeight="17.0" prefWidth="51.0" text="  label" textFill="WHITE" />
+                  <Label layoutX="14.0" layoutY="52.0" text="Logged :" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="logged" layoutX="80.0" layoutY="54.0" prefHeight="17.0" prefWidth="59.0" text=" Label" textFill="WHITE" />
                </children>
             </AnchorPane>
          </children>
