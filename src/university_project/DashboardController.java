@@ -91,6 +91,8 @@ public class DashboardController implements Initializable {
         getUnameEmail();
         barchartf();
         
+        totalStudentsf();
+        
     }    
 
     @FXML
@@ -144,7 +146,7 @@ public class DashboardController implements Initializable {
                   result=statement.executeQuery();
                   if(result.next()){
                       
-                      System.out.println(result.getString("name"));
+                   
                       teacherUname.setText(result.getString("name"));
                       teacherEmail.setText(result.getString("email"));
                   }
@@ -157,6 +159,33 @@ public class DashboardController implements Initializable {
                  
              }
     }
+    
+    
+    public void totalStudentsf(){
+          try{
+                  con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+                  String sql= "SELECT COUNT(*) as studentCount from students";
+                 
+                  statement= con.prepareStatement(sql);
+                 
+                  
+                  result=statement.executeQuery();
+                  
+                  if(result.next()){
+                     int nn= result.getInt("studentCount");
+                     String s=String.valueOf(nn);
+                      totalStudents.setText(s);
+                  }
+                  
+                 
+             }
+             catch(SQLException ex){
+                 alertbox("Not connected to the database");
+                 
+             }
+    }
+    
+    
 
     
     public void barchartf(){
