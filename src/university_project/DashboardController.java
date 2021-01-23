@@ -19,6 +19,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -67,6 +71,12 @@ public class DashboardController implements Initializable {
     private Pane pane3;
     @FXML
     private Pane pane4;
+    @FXML
+    private NumberAxis daysid;
+    @FXML
+    private CategoryAxis courseId;
+    @FXML
+    private BarChart<String, Number> barchart;
 
     /**
      * Initializes the controller class.
@@ -79,6 +89,7 @@ public class DashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         getUnameEmail();
+        barchartf();
         
     }    
 
@@ -147,9 +158,28 @@ public class DashboardController implements Initializable {
              }
     }
 
+    
+    public void barchartf(){
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Class Logged");
+        series.getData().add(new XYChart.Data<>("CSE 1101", 63));
+         series.getData().add(new XYChart.Data<>("CSE 1201", 51));
+          series.getData().add(new XYChart.Data<>("CSE 2101", 27));
+          barchart.getData().add(series);
+          
+            XYChart.Series<String, Number> series1 = new XYChart.Series<>();
+            series1.setName("Class Scheduled");
+            series1.getData().add(new XYChart.Data<>("CSE 1101", 20));
+            series1.getData().add(new XYChart.Data<>("CSE 1201", 45));
+            series1.getData().add(new XYChart.Data<>("CSE 2101", 23));
+            barchart.getData().add(series1);
+           
+           
+    }
     @FXML
     private void dashboardAction(ActionEvent event) {
         pane1.toFront();
+        //barchartf();
     }
 
     @FXML
