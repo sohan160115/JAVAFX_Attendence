@@ -88,19 +88,29 @@ public class DashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
+        Connect();
         getUnameEmail();
         barchartf();
-        
         totalStudentsf();
         
-    }    
+    }   
+    
+    
+     public void Connect(){
+        try {
+            con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+        } catch (SQLException ex) {
+             alertbox("Not connected to the database");
+        }
+    }
 
     @FXML
     private void logoutAction(ActionEvent event) {
                       
                        
                        try{
-                           con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+                          
                             String sq="UPDATE teachers SET Islogin=? where Islogin=?";
                            statement= con.prepareStatement(sq);
                            statement.setBoolean(1,false);
@@ -137,7 +147,7 @@ public class DashboardController implements Initializable {
     public void getUnameEmail(){
         boolean Islogin = true;
          try{
-                  con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+                  
                   String sql= "SELECT * from teachers where Islogin=?";
                  
                   statement= con.prepareStatement(sql);
@@ -163,7 +173,7 @@ public class DashboardController implements Initializable {
     
     public void totalStudentsf(){
           try{
-                  con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+                  
                   String sql= "SELECT COUNT(*) as studentCount from students";
                  
                   statement= con.prepareStatement(sql);
@@ -205,6 +215,8 @@ public class DashboardController implements Initializable {
            
            
     }
+    
+    
     @FXML
     private void dashboardAction(ActionEvent event) {
         pane1.toFront();
