@@ -14,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -64,12 +66,15 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         combobox.setItems(list);
+        Connect();
     }    
 
     @FXML
     private void comboboxChange(ActionEvent event) {
     }
-
+    
+    
+   
     @FXML
     private void LoginAction(ActionEvent event) {
         
@@ -122,7 +127,7 @@ public class FXMLDocumentController implements Initializable {
          else{
              
              try{
-                  con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+                 
                   String sql= "SELECT * from teachers where name=? and password=?";
                   statement= con.prepareStatement(sql);
                   statement.setString(1,name);
@@ -169,7 +174,7 @@ public class FXMLDocumentController implements Initializable {
          else{
              
              try{
-                  con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+                 
                   String sql= "SELECT * from heads where name=? and password=?";
                   statement= con.prepareStatement(sql);
                   statement.setString(1,name);
@@ -200,6 +205,16 @@ public class FXMLDocumentController implements Initializable {
              }
              
          }
+    }
+    
+    
+    public void Connect(){
+        try {
+            con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+             alertbox("Not connected to the database");
+        }
     }
 
     @FXML

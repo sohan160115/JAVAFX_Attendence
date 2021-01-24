@@ -62,15 +62,23 @@ public class Dashboard_HeadController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
+        Connect();
         getUnameEmail();
     }    
+    
+     public void Connect(){
+        try {
+            con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+        } catch (SQLException ex) {
+             alertbox("Not connected to the database");
+        }
+    }
 
     @FXML
     private void logoutAction(ActionEvent event) {
         
          try{
-                           con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+                          
                             String sq="UPDATE heads SET Islogin=? where Islogin=?";
                            statement= con.prepareStatement(sq);
                            statement.setBoolean(1,false);
@@ -107,7 +115,7 @@ public class Dashboard_HeadController implements Initializable {
       public void getUnameEmail(){
         boolean Islogin = true;
          try{
-                  con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+                  
                   String sql= "SELECT * from heads where Islogin=?";
                  
                   statement= con.prepareStatement(sql);

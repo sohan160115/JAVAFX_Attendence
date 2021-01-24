@@ -23,7 +23,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import static university_project.FXMLDocumentController.alertbox;
 
 /**
  * FXML Controller class
@@ -56,17 +58,32 @@ public class RegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+          //Connect();
          combobox.setItems(list);
-    }    
+         
+         // Could not insert value in teaches and head table rest table is inserted
+    }  
+    
+    public void Connect(){
+        try {
+            con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+        } catch (SQLException ex) {
+             alertbox("Not connected");
+        }
+    }
 
     @FXML
     private void RegisterAction(ActionEvent event) {
         
          if(combobox.getValue()=="Head"){
             dbHead();
+           // Connect();
+            System.out.println("HDD");
         }
         else{
            dbTeacher();
+           //Connect();
+           System.out.println("SDD");
         }
     }
     
@@ -85,37 +102,38 @@ public class RegisterController implements Initializable {
         String password= tpass.getText();
         String email= temail.getText();
         
-         if(name.equals("") && password.equals("")){
-               
-                alertbox("Username or password blank");
-         }
+        
          
-         else{
+         
              
              try{
-                  con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
-                  String sql= "INSERT into teachers(name,email,password)" + "VALUES(?,?,?)";
-                  statement= con.prepareStatement(sql);
-                  statement.setString(1,name);
-                  statement.setString(2,email);
-                  statement.setString(3,password);
-                  int rows=statement.executeUpdate();
+                 
+                 Connection con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
                   
-                  if(rows>0){
-                      alertbox("Your information is succesfully recorded in Database");
-                  }
-                  
-          
+                 String sql= "INSERT into teachers(name,email,password)" + 
+                     "VALUES(?,?,?)" ;
+                PreparedStatement  statement= con.prepareStatement(sql);
+                  statement.setString(1,"Hashem");
+                   statement.setString(2,"hashem@gmail.com");
+                    statement.setString(3,"5555");
+                   
+             
+              int rows= statement.executeUpdate();
+            
+            if(rows>0){
+                System.out.println("One row added");
+            }
+                 
              }
              catch(SQLException ex){
-                 
+                
                  alertbox("Not connected to the database");
                  
              }
              
          }
         
-    }
+    
      
       public void dbHead(){
         
@@ -131,7 +149,7 @@ public class RegisterController implements Initializable {
          else{
              
              try{
-                  con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+                  
                   String sql= "INSERT into heads(name,email,password)" + "VALUES(?,?,?)";
                   statement= con.prepareStatement(sql);
                   statement.setString(1,name);
@@ -153,7 +171,7 @@ public class RegisterController implements Initializable {
           
              }
              catch(SQLException ex){
-                 System.out.println("Not connected to the database");
+                 System.out.println("Not connected ");
                  
              }
              
