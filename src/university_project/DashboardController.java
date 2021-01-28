@@ -14,6 +14,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import static javafx.collections.FXCollections.observableList;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +28,9 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import static university_project.FXMLDocumentController.alertbox;
@@ -77,6 +83,18 @@ public class DashboardController implements Initializable {
     private CategoryAxis courseId;
     @FXML
     private BarChart<String, Number> barchart;
+    @FXML
+    private TableView<Att> tableView;
+    @FXML
+    private TableColumn<Att, Integer> colRoll;
+    @FXML
+    private TableColumn<Att, String> colName;
+    @FXML
+    private TableColumn<Att, String> colEmail;
+    @FXML
+    private TableColumn<Att, String> colPhone;
+    @FXML
+    private TableColumn<Att, Boolean> colPresent;
 
     /**
      * Initializes the controller class.
@@ -93,6 +111,7 @@ public class DashboardController implements Initializable {
         getUnameEmail();
         barchartf();
         totalStudentsf();
+         pane1.toFront();
         
     }   
     
@@ -104,6 +123,36 @@ public class DashboardController implements Initializable {
              alertbox("Not connected to the database");
         }
     }
+     
+     public void table(){
+         colRoll.setCellValueFactory(new PropertyValueFactory<>("Roll"));
+         colName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+         colEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
+         colPhone.setCellValueFactory(new PropertyValueFactory<>("Phone"));
+         colPresent.setCellValueFactory(new PropertyValueFactory<>("Present"));
+                               try{
+                          
+                           String sq="SELECT students.roll, students.name, students.email, students.phone FROM `students` JOIN course_student ON students.id= course_student.student_id JOIN courses ON courses.id= course_student.course_id";
+                           statement= con.prepareStatement(sq);
+                          result= statement.executeQuery(sq);
+                          while(result.next()){
+                              int roll= result.getInt("roll");
+                              String name= result.getString("name");
+                              String email= result.getString("email");
+                              String phone= result.getString("phone");
+                              
+                               System.out.println(roll+ " " + name);
+                              Att att= new Att(roll,name,email, phone, false);
+                               tableView.getItems().add(att);
+                          }
+                         
+                          
+                       }
+                       catch(SQLException ex){
+                           alertbox("Not connected to the database");
+                       }
+         
+     }
 
     @FXML
     private void logoutAction(ActionEvent event) {
@@ -227,6 +276,7 @@ public class DashboardController implements Initializable {
     private void AttendenceSheetAction(ActionEvent event) {
         
         pane2.toFront();
+        table();
     }
 
     @FXML
