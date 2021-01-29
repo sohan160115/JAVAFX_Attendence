@@ -13,7 +13,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import static javafx.collections.FXCollections.observableList;
 import javafx.collections.ObservableList;
@@ -27,6 +31,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -95,7 +100,15 @@ public class DashboardController implements Initializable {
     private TableColumn<Att, String> colPhone;
     @FXML
     private TableColumn<Att, Boolean> colPresent;
-
+    @FXML
+    private ComboBox<String> combobox;
+    ObservableList<String> options = FXCollections.observableArrayList();
+    
+    Boolean ck=true;
+   
+    
+    
+    
     /**
      * Initializes the controller class.
      * 
@@ -112,6 +125,8 @@ public class DashboardController implements Initializable {
         barchartf();
         totalStudentsf();
          pane1.toFront();
+         
+         fillCombobox();
         
     }   
     
@@ -124,24 +139,51 @@ public class DashboardController implements Initializable {
         }
     }
      
+     public void fillCombobox(){
+         
+        try {
+            String sq= "SELECT id,course_no from courses";
+            statement= con.prepareStatement(sq);
+            result= statement.executeQuery(sq);
+             while(result.next()){
+                            
+                              String name= result.getString("course_no");
+                              Integer id = result.getInt("id");
+                              options.add(name);
+                              
+                              
+                          }
+             combobox.setItems(options);
+        } catch (SQLException ex) {
+           alertbox("Not connected to the database");
+        }
+        
+        
+        
+     }
+     
+    
+     
+     
+     
      public void table(){
          colRoll.setCellValueFactory(new PropertyValueFactory<>("Roll"));
          colName.setCellValueFactory(new PropertyValueFactory<>("Name"));
          colEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
          colPhone.setCellValueFactory(new PropertyValueFactory<>("Phone"));
          colPresent.setCellValueFactory(new PropertyValueFactory<>("Present"));
-                               try{
+        
+         try{
                           
-                           String sq="SELECT students.roll, students.name, students.email, students.phone FROM `students` JOIN course_student ON students.id= course_student.student_id JOIN courses ON courses.id= course_student.course_id";
+                           String sq="SELECT students.roll, students.name, students.email, students.phone FROM `students` JOIN course_student JOIN courses ON students.id= course_student.student_id AND course_student.course_id=courses.id AND courses.course_no=?";
                            statement= con.prepareStatement(sq);
-                          result= statement.executeQuery(sq);
+                            statement.setString(1,combobox.getSelectionModel().getSelectedItem());
+                          result= statement.executeQuery();
                           while(result.next()){
                               int roll= result.getInt("roll");
                               String name= result.getString("name");
                               String email= result.getString("email");
                               String phone= result.getString("phone");
-                              
-                               System.out.println(roll+ " " + name);
                               Att att= new Att(roll,name,email, phone, false);
                                tableView.getItems().add(att);
                           }
@@ -151,8 +193,13 @@ public class DashboardController implements Initializable {
                        catch(SQLException ex){
                            alertbox("Not connected to the database");
                        }
+    }
          
-     }
+     
+     
+    
+     
+     
 
     @FXML
     private void logoutAction(ActionEvent event) {
@@ -276,7 +323,8 @@ public class DashboardController implements Initializable {
     private void AttendenceSheetAction(ActionEvent event) {
         
         pane2.toFront();
-        table();
+       // table();
+       
     }
 
     @FXML
@@ -287,6 +335,17 @@ public class DashboardController implements Initializable {
     @FXML
     private void ClassLogAction(ActionEvent event) {
         pane4.toFront();
+    }
+
+    @FXML
+    private void setOnAction(ActionEvent event) {
+        if(ck){
+          tableView.getItems().clear();
+           table();
+        }
+       
+       
+        
     }
     
 }

@@ -91,7 +91,7 @@
          </children></Pane>
       <Pane fx:id="pane2" layoutX="146.0" layoutY="139.0" prefHeight="550.0" prefWidth="704.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="139.0">
          <children>
-            <ComboBox layoutX="107.0" layoutY="52.0" prefWidth="150.0" />
+            <ComboBox fx:id="combobox" layoutX="107.0" layoutY="52.0" onAction="#setOnAction" prefWidth="150.0" />
             <Label layoutX="20.0" layoutY="55.0" prefHeight="17.0" prefWidth="77.0" text="Select Course" />
             <DatePicker layoutX="325.0" layoutY="52.0" />
             <Label layoutX="282.0" layoutY="56.0" prefHeight="17.0" prefWidth="43.0" text="Date" />
