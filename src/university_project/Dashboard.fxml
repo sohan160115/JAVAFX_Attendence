@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="729.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="university_project.DashboardController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="832.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="university_project.DashboardController">
    <children>
       <AnchorPane layoutX="-17.0" layoutY="-20.0" prefHeight="749.0" prefWidth="154.0" style="-fx-background-color: #221A35;">
          <children>
@@ -24,7 +24,7 @@
             <Button fx:id="classLogsBtn" layoutX="20.0" layoutY="351.0" mnemonicParsing="false" onAction="#ClassLogAction" prefHeight="25.0" prefWidth="124.0" text="Class Logs" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="137.0" layoutY="-1.0" prefHeight="138.0" prefWidth="721.0" style="-fx-background-color: #fff;">
+      <AnchorPane layoutX="137.0" layoutY="5.0" prefHeight="132.0" prefWidth="698.0" style="-fx-background-color: #fff;">
          <children>
             <AnchorPane layoutX="3.0" layoutY="22.0" prefHeight="103.0" prefWidth="272.0" style="-fx-background-color: #212A35;">
                <children>
@@ -76,9 +76,8 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <Pane fx:id="pane3" layoutX="146.0" layoutY="139.0" prefHeight="571.0" prefWidth="646.0" style="-fx-background-color: #ADD8E6;" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="139.0" />
-      <Pane fx:id="pane4" layoutX="146.0" layoutY="139.0" prefHeight="587.0" prefWidth="646.0" style="-fx-background-color: #E0FFFF;" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="139.0" />
-      <Pane fx:id="pane1" layoutX="146.0" layoutY="139.0" prefHeight="565.0" prefWidth="666.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="139.0">
+      <Pane fx:id="pane4" layoutX="146.0" layoutY="139.0" prefHeight="586.0" prefWidth="704.0" style="-fx-background-color: #E0FFFF;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="139.0" />
+      <Pane fx:id="pane1" layoutX="146.0" layoutY="139.0" prefHeight="586.0" prefWidth="704.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="139.0">
          <children>
             <BarChart fx:id="barchart" layoutX="14.0" layoutY="27.0" prefHeight="400.0" prefWidth="615.0">
               <xAxis>
@@ -89,13 +88,13 @@
               </yAxis>
             </BarChart>
          </children></Pane>
-      <Pane fx:id="pane2" layoutX="146.0" layoutY="139.0" prefHeight="550.0" prefWidth="704.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="139.0">
+      <Pane fx:id="pane2" layoutX="146.0" layoutY="139.0" prefHeight="586.0" prefWidth="704.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="139.0">
          <children>
             <ComboBox fx:id="combobox" layoutX="107.0" layoutY="52.0" onAction="#setOnAction" prefWidth="150.0" />
             <Label layoutX="20.0" layoutY="55.0" prefHeight="17.0" prefWidth="77.0" text="Select Course" />
             <DatePicker layoutX="325.0" layoutY="52.0" />
             <Label layoutX="282.0" layoutY="56.0" prefHeight="17.0" prefWidth="43.0" text="Date" />
-            <TableView fx:id="tableView" layoutX="14.0" layoutY="130.0" prefHeight="408.0" prefWidth="680.0">
+            <TableView fx:id="tableView" layoutX="14.0" layoutY="130.0" prefHeight="345.0" prefWidth="643.0">
               <columns>
                 <TableColumn fx:id="colRoll" prefWidth="94.0" text="Roll" />
                 <TableColumn fx:id="colName" prefWidth="136.0" text="Name" />
@@ -109,7 +108,31 @@
                   <Font size="22.0" />
                </font>
             </Label>
+            <Button fx:id="btnsubmit" layoutX="200.0" layoutY="500.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="Submit Attendence" />
          </children>
       </Pane>
+      <Pane fx:id="pane3" layoutX="146.0" layoutY="139.0" prefHeight="586.0" prefWidth="704.0" style="-fx-background-color: #ADD8E6;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="139.0">
+         <children>
+            <Label layoutX="198.0" layoutY="14.0" prefHeight="28.0" prefWidth="174.0" text="Attendence Record">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="comboboxR" layoutX="231.0" layoutY="65.0" onAction="#setOnActionR" prefHeight="25.0" prefWidth="233.0" />
+            <Label layoutX="84.0" layoutY="65.0" prefHeight="17.0" prefWidth="114.0" text="Select Course">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <TableView fx:id="TableViewR" layoutX="16.0" layoutY="133.0" prefHeight="422.0" prefWidth="643.0">
+              <columns>
+                <TableColumn fx:id="colRollR" prefWidth="120.0" text="Roll" />
+                <TableColumn fx:id="colNameR" prefWidth="116.0" text="Name" />
+                  <TableColumn fx:id="colEmailR" prefWidth="154.0" text="Email" />
+                  <TableColumn fx:id="colPhoneR" minWidth="3.0" prefWidth="130.0" text="Phone" />
+                  <TableColumn fx:id="colPercentageR" minWidth="3.0" prefWidth="122.0" text="Percentage" />
+              </columns>
+            </TableView>
+         </children></Pane>
    </children>
 </AnchorPane>
