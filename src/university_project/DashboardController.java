@@ -99,7 +99,7 @@ public class DashboardController implements Initializable {
     @FXML
     private TableColumn<Att, String> colPhone;
     @FXML
-    private TableColumn<Att, Boolean> colPresent;
+    private TableColumn<Att, String> colPresent;
     @FXML
     private ComboBox<String> combobox;
     ObservableList<String> options = FXCollections.observableArrayList();
@@ -171,7 +171,7 @@ public class DashboardController implements Initializable {
          colName.setCellValueFactory(new PropertyValueFactory<>("Name"));
          colEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
          colPhone.setCellValueFactory(new PropertyValueFactory<>("Phone"));
-         colPresent.setCellValueFactory(new PropertyValueFactory<>("Present"));
+         colPresent.setCellValueFactory(new PropertyValueFactory<>("select"));
         
          try{
                           
@@ -184,7 +184,7 @@ public class DashboardController implements Initializable {
                               String name= result.getString("name");
                               String email= result.getString("email");
                               String phone= result.getString("phone");
-                              Att att= new Att(roll,name,email, phone, false);
+                              Att att= new Att(roll,name,email, phone);
                                tableView.getItems().add(att);
                           }
                          

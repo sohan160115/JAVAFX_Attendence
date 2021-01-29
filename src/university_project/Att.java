@@ -8,6 +8,7 @@ package university_project;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.CheckBox;
 
 /**
  *
@@ -18,14 +19,14 @@ public class Att {
     private SimpleStringProperty Name;
     private SimpleStringProperty Email;
     private SimpleStringProperty Phone;
-    private SimpleBooleanProperty present;
+    private CheckBox select;
 
-    public Att(int Roll, String Name, String Email, String Phone, boolean present) {
+    public Att(int Roll, String Name, String Email, String Phone) {
         this.Roll = new SimpleIntegerProperty(Roll);
         this.Name = new SimpleStringProperty(Name);
         this.Email = new SimpleStringProperty(Email);
         this.Phone = new SimpleStringProperty (Phone);
-        this.present = new SimpleBooleanProperty(present);
+        this.select = new CheckBox();
     }
 
     public int getRoll() {
@@ -59,13 +60,18 @@ public class Att {
     public void setPhone(String Phone) {
         this.Phone = new SimpleStringProperty(Phone);
     }
-// Don't understand
-    public SimpleBooleanProperty isPresent() {
-        return present;
+    
+    public CheckBox getSelect(){
+        return select;
+    }
+    
+    public void setSelect(CheckBox select){
+        
+        this.select=select;
+        
     }
 
-    public void setPresent(boolean present) {
-        this.present = new SimpleBooleanProperty(present);
-    }
+
+    
     
 }

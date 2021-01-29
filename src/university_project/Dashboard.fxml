@@ -99,11 +99,16 @@
               <columns>
                 <TableColumn fx:id="colRoll" prefWidth="94.0" text="Roll" />
                 <TableColumn fx:id="colName" prefWidth="136.0" text="Name" />
-                  <TableColumn fx:id="colEmail" minWidth="4.0" prefWidth="191.0" text="Email" />
-                  <TableColumn fx:id="colPhone" prefWidth="160.0" text="Phone" />
-                  <TableColumn fx:id="colPresent" prefWidth="98.0" text="Present" />
+                  <TableColumn fx:id="colEmail" minWidth="4.0" prefWidth="146.0" text="Email" />
+                  <TableColumn fx:id="colPhone" prefWidth="134.0" text="Phone" />
+                  <TableColumn fx:id="colPresent" prefWidth="169.0" text="Present" />
               </columns>
             </TableView>
+            <Label layoutX="220.0" layoutY="6.0" prefHeight="17.0" prefWidth="192.0" text="Attendence Sheet">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>
