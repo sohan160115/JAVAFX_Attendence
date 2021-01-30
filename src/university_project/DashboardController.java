@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import static javafx.collections.FXCollections.observableList;
@@ -65,8 +67,6 @@ public class DashboardController implements Initializable {
     @FXML
     private Label totalStudents;
     @FXML
-    private Label totalSection;
-    @FXML
     private Label Scheduled;
     @FXML
     private Label logged;
@@ -93,17 +93,17 @@ public class DashboardController implements Initializable {
     @FXML
     private BarChart<String, Number> barchart;
     @FXML
-    private TableView<Att> tableView;
+    private TableView<Student> tableView;
     @FXML
-    private TableColumn<Att, Integer> colRoll;
+    private TableColumn<Student, Integer> colRoll;
     @FXML
-    private TableColumn<Att, String> colName;
+    private TableColumn<Student, String> colName;
     @FXML
-    private TableColumn<Att, String> colEmail;
+    private TableColumn<Student, String> colEmail;
     @FXML
-    private TableColumn<Att, String> colPhone;
+    private TableColumn<Student, String> colPhone;
     @FXML
-    private TableColumn<Att, String> colPresent;
+    private TableColumn<Student, CheckBox> colPresent;
     @FXML
     private ComboBox<String> combobox;
     ObservableList<String> options = FXCollections.observableArrayList();
@@ -149,9 +149,8 @@ public class DashboardController implements Initializable {
         totalStudentsf();
         ScheduledLogged();
          pane1.toFront();
-         
+         //table();
          fillCombobox();
-         
          fillComboboxR();
         
     }   
@@ -211,11 +210,14 @@ public class DashboardController implements Initializable {
      
      
      public void table(){
-         colRoll.setCellValueFactory(new PropertyValueFactory<>("Roll"));
-         colName.setCellValueFactory(new PropertyValueFactory<>("Name"));
-         colEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
-         colPhone.setCellValueFactory(new PropertyValueFactory<>("Phone"));
-         colPresent.setCellValueFactory(new PropertyValueFactory<>("select"));
+         ArrayList<Integer> present_id=new ArrayList<>();
+         colRoll.setCellValueFactory(new PropertyValueFactory<Student,Integer>("id"));
+         colName.setCellValueFactory(new PropertyValueFactory<Student,String>("name"));
+         colEmail.setCellValueFactory(new PropertyValueFactory<Student,String>("email"));
+         colPhone.setCellValueFactory(new PropertyValueFactory<Student,String>("phone"));
+         colPresent.setCellValueFactory(new PropertyValueFactory<Student,CheckBox>("checkbox"));
+         
+         ObservableList<Student> data= FXCollections.observableArrayList();
         
          try{
                           
@@ -223,47 +225,39 @@ public class DashboardController implements Initializable {
                            statement= con.prepareStatement(sq);
                            statement.setString(1,combobox.getSelectionModel().getSelectedItem());
                           result= statement.executeQuery();
-                          ArrayList<String> IsAttendent = new ArrayList<String>();
+                          
+
+                          ObservableList<Att> students= FXCollections.observableArrayList();
                           
                           while(result.next()){
+                              Student std=new Student();
+                              int id= result.getInt("roll");
+                              std.id=new SimpleIntegerProperty(result.getInt("roll"));
+                              std.name=new SimpleStringProperty(result.getString("name"));
+                              std.email=new SimpleStringProperty(result.getString("email"));
+                              std.phone=new SimpleStringProperty(result.getString("phone"));
                               
-                     
-                              //public CheckBox ckl= new CheckBox();
-                               
-                              int roll= result.getInt("roll");
-                              String name= result.getString("name");
-                              String email= result.getString("email");
-                              String phone= result.getString("phone");
-                              //ckList.add(new CheckBox().setId());
-                              
-                                         CheckBox c=new CheckBox();
-                                           c.setId(""+ roll);
-                                        
-
-                                   c.setOnAction(event -> {
-                                          //IsAttendent.add(c.getId())
-                                          System.out.println(c.getId());
-                                          
-                                               if(c.isSelected()){
-                                                   IsAttendent.add(c.getId());
-                                               }
-                                               else{
-                                                   IsAttendent.remove(c.getId());
-                                               }
-                                    
-                                  });
-                                  // colPresent.setCellValueFactory((Callback<TableColumn.CellDataFeatures<Att, String>, ObservableValue<String>>) c);
-                                  // colPresent.setCellValueFactory();
-                              Att att= new Att(roll,name,email, phone);
-                              
-                               tableView.getItems().add(att);
+                              std.getCheckbox().setOnAction(event -> {
+                                      if(std.getCheckbox().isSelected()){
+                                               present_id.add(id);
+                                            }
+                                      else{
+                                        present_id.remove(id);
+                                      }
+                                });
+                           data.add(std);
                           }
-                         
-                          
+                            tableView.getColumns().clear();
+                           tableView.getColumns().addAll(colRoll,colName,colEmail,colPhone,colPresent);
+                           tableView.setItems(data);
+                          //tableView.setItems(students);
                        }
                        catch(SQLException ex){
                            alertbox("Not connected to the databasetabel");
                        }
+         btnsubmit.setOnAction(event -> {
+            System.out.println(present_id);
+        });
     }
          
      public void tableR(){
@@ -469,7 +463,8 @@ public class DashboardController implements Initializable {
     @FXML
     private void setOnAction(ActionEvent event) {
         if(ck){
-          tableView.getItems().clear();
+          //tableView.getItems().clear();
+           tableView.getColumns().clear();
            table();
         }
        

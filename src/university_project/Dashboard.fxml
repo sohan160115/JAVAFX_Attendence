@@ -70,7 +70,6 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <Pane fx:id="pane4" layoutX="146.0" layoutY="139.0" prefHeight="586.0" prefWidth="704.0" style="-fx-background-color: #E0FFFF;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="139.0" />
       <Pane fx:id="pane1" layoutX="146.0" layoutY="139.0" prefHeight="586.0" prefWidth="704.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="139.0">
          <children>
             <BarChart fx:id="barchart" layoutX="14.0" layoutY="27.0" prefHeight="400.0" prefWidth="615.0">
@@ -82,29 +81,7 @@
               </yAxis>
             </BarChart>
          </children></Pane>
-      <Pane fx:id="pane2" layoutX="146.0" layoutY="139.0" prefHeight="586.0" prefWidth="704.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="139.0">
-         <children>
-            <ComboBox fx:id="combobox" layoutX="107.0" layoutY="52.0" onAction="#setOnAction" prefWidth="150.0" />
-            <Label layoutX="20.0" layoutY="55.0" prefHeight="17.0" prefWidth="77.0" text="Select Course" />
-            <DatePicker layoutX="325.0" layoutY="52.0" />
-            <Label layoutX="282.0" layoutY="56.0" prefHeight="17.0" prefWidth="43.0" text="Date" />
-            <TableView fx:id="tableView" layoutX="14.0" layoutY="130.0" prefHeight="345.0" prefWidth="643.0">
-              <columns>
-                <TableColumn fx:id="colRoll" prefWidth="94.0" text="Roll" />
-                <TableColumn fx:id="colName" prefWidth="136.0" text="Name" />
-                  <TableColumn fx:id="colEmail" minWidth="4.0" prefWidth="146.0" text="Email" />
-                  <TableColumn fx:id="colPhone" prefWidth="134.0" text="Phone" />
-                  <TableColumn fx:id="colPresent" prefWidth="169.0" text="Present" />
-              </columns>
-            </TableView>
-            <Label layoutX="220.0" layoutY="6.0" prefHeight="17.0" prefWidth="192.0" text="Attendence Sheet">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Label>
-            <Button fx:id="btnsubmit" layoutX="200.0" layoutY="500.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="219.0" text="Submit Attendence" />
-         </children>
-      </Pane>
+      <Pane fx:id="pane4" layoutX="146.0" layoutY="139.0" prefHeight="586.0" prefWidth="704.0" style="-fx-background-color: #E0FFFF;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="139.0" />
       <Pane fx:id="pane3" layoutX="146.0" layoutY="139.0" prefHeight="586.0" prefWidth="704.0" style="-fx-background-color: #ADD8E6;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="139.0">
          <children>
             <Label layoutX="198.0" layoutY="14.0" prefHeight="28.0" prefWidth="174.0" text="Attendence Record">
@@ -128,5 +105,28 @@
               </columns>
             </TableView>
          </children></Pane>
+      <Pane fx:id="pane2" layoutX="146.0" layoutY="139.0" prefHeight="586.0" prefWidth="704.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="139.0">
+         <children>
+            <ComboBox fx:id="combobox" layoutX="107.0" layoutY="52.0" onAction="#setOnAction" prefWidth="150.0" />
+            <Label layoutX="20.0" layoutY="55.0" prefHeight="17.0" prefWidth="77.0" text="Select Course" />
+            <DatePicker layoutX="325.0" layoutY="52.0" />
+            <Label layoutX="282.0" layoutY="56.0" prefHeight="17.0" prefWidth="43.0" text="Date" />
+            <TableView fx:id="tableView" layoutX="14.0" layoutY="130.0" prefHeight="345.0" prefWidth="643.0">
+              <columns>
+                <TableColumn fx:id="colRoll" prefWidth="94.0" text="Roll" />
+                <TableColumn fx:id="colName" prefWidth="136.0" text="Name" />
+                  <TableColumn fx:id="colEmail" minWidth="4.0" prefWidth="146.0" text="Email" />
+                  <TableColumn fx:id="colPhone" prefWidth="134.0" text="Phone" />
+                  <TableColumn fx:id="colPresent" prefWidth="169.0" text="Present" />
+              </columns>
+            </TableView>
+            <Label layoutX="220.0" layoutY="6.0" prefHeight="17.0" prefWidth="192.0" text="Attendence Sheet">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnsubmit" layoutX="200.0" layoutY="500.0" mnemonicParsing="false" onAction="#setOnAction" prefHeight="25.0" prefWidth="219.0" text="Submit Attendence" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

@@ -15,19 +15,27 @@ import javafx.scene.control.CheckBox;
  * @author sohan
  */
 public class Att {
-    private SimpleIntegerProperty Roll;
-    private SimpleStringProperty Name;
-    private SimpleStringProperty Email;
-    private SimpleStringProperty Phone;
-    private CheckBox select;
+    SimpleIntegerProperty Roll;
+    SimpleStringProperty Name;
+    SimpleStringProperty Email;
+    SimpleStringProperty Phone;
+    public CheckBox select;
+    CheckBox checkBox;
+   
+    
 
-    public Att(int Roll, String Name, String Email, String Phone) {
+    public Att(int Roll, String Name, String Email, String Phone,CheckBox select) {
         this.Roll = new SimpleIntegerProperty(Roll);
         this.Name = new SimpleStringProperty(Name);
         this.Email = new SimpleStringProperty(Email);
         this.Phone = new SimpleStringProperty (Phone);
         this.select = new CheckBox();
     }
+
+    Att() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 
     public int getRoll() {
         return Roll.get();
