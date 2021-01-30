@@ -5,6 +5,7 @@
  */
 package university_project;
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.awt.Checkbox;
 import java.beans.Statement;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -37,9 +39,11 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -127,9 +131,10 @@ public class DashboardController implements Initializable {
     @FXML
     private TableColumn<AttR, Integer> colPercentageR;
     
-    
+    @FXML
+    DatePicker date;
    
-    
+    public String dt;
     
     
     /**
@@ -152,9 +157,16 @@ public class DashboardController implements Initializable {
          //table();
          fillCombobox();
          fillComboboxR();
+       
+        
         
     }   
-    
+   
+    public void showDate(ActionEvent event){
+        LocalDate ld= date.getValue();
+        //System.out.println(ld);
+        dt= ld.toString();
+    }
     
      public void Connect(){
         try {
@@ -218,11 +230,14 @@ public class DashboardController implements Initializable {
          colPresent.setCellValueFactory(new PropertyValueFactory<Student,CheckBox>("checkbox"));
          
          ObservableList<Student> data= FXCollections.observableArrayList();
-        
+         String course= combobox.getSelectionModel().getSelectedItem();
+         
+         
          try{
                           
                            String sq="SELECT students.roll, students.name, students.email, students.phone FROM `students` JOIN course_student JOIN courses ON students.id= course_student.student_id AND course_student.course_id=courses.id AND courses.course_no=?";
                            statement= con.prepareStatement(sq);
+                          
                            statement.setString(1,combobox.getSelectionModel().getSelectedItem());
                           result= statement.executeQuery();
                           
@@ -256,7 +271,29 @@ public class DashboardController implements Initializable {
                            alertbox("Not connected to the databasetabel");
                        }
          btnsubmit.setOnAction(event -> {
-            System.out.println(present_id);
+           
+             System.out.println(dt);
+             Integer Cid;
+            //System.out.println(course);
+                   try {
+            String sq= "SELECT id from courses WHERE course_no=?";
+            statement= con.prepareStatement(sq);
+            statement.setString(1,course);
+            result= statement.executeQuery();
+            
+                         if(result.next()){
+                             Cid=result.getInt("id");
+                            System.out.println("Course id "+ Cid);
+                       } 
+        } catch (SQLException ex) {
+           alertbox("No");
+        }
+            for (Integer i : present_id) {
+                 System.out.println(i);
+             
+                 
+                
+    }
         });
     }
          
@@ -430,9 +467,6 @@ public class DashboardController implements Initializable {
                  alertbox("Not connected");
                  
              }
-            
-         
-           
     }
     
     
@@ -447,6 +481,7 @@ public class DashboardController implements Initializable {
         
         pane2.toFront();
        // table();
+       tableView.getColumns().clear();
        
     }
 
