@@ -50,12 +50,6 @@
                      </font>
                   </Label>
                   <Label fx:id="totalStudents" layoutX="117.0" layoutY="23.0" prefHeight="17.0" prefWidth="51.0" text="  label" textFill="WHITE" />
-                  <Label layoutX="14.0" layoutY="52.0" text="Total Section :" textFill="WHITE">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="totalSection" layoutX="113.0" layoutY="54.0" prefHeight="17.0" prefWidth="59.0" text=" Label" textFill="WHITE" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="495.0" layoutY="22.0" prefHeight="103.0" prefWidth="192.0" style="-fx-background-color: #212A35;">

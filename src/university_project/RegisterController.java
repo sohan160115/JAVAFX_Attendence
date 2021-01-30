@@ -58,7 +58,7 @@ public class RegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-          //Connect();
+          Connect();
          combobox.setItems(list);
          
          // Could not insert value in teaches and head table rest table is inserted
@@ -103,19 +103,16 @@ public class RegisterController implements Initializable {
         String email= temail.getText();
         
         
-         
-         
-             
              try{
                  
                  Connection con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
                   
                  String sql= "INSERT into teachers(name,email,password)" + 
                      "VALUES(?,?,?)" ;
-                PreparedStatement  statement= con.prepareStatement(sql);
-                  statement.setString(1,"Hashem");
-                   statement.setString(2,"hashem@gmail.com");
-                    statement.setString(3,"5555");
+                  statement= con.prepareStatement(sql);
+                  statement.setString(1,name);
+                   statement.setString(2,email);
+                    statement.setString(3,password);
                    
              
               int rows= statement.executeUpdate();
@@ -127,7 +124,7 @@ public class RegisterController implements Initializable {
              }
              catch(SQLException ex){
                 
-                 alertbox("Not connected to the database");
+                 alertbox("Not connected");
                  
              }
              

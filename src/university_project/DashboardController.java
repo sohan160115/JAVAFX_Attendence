@@ -404,19 +404,41 @@ public class DashboardController implements Initializable {
              }
     }
     public void barchartf(){
+        
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Class Logged");
-        series.getData().add(new XYChart.Data<>("CSE 1101", 63));
-         series.getData().add(new XYChart.Data<>("CSE 1201", 51));
-          series.getData().add(new XYChart.Data<>("CSE 2101", 27));
-          barchart.getData().add(series);
-          
-            XYChart.Series<String, Number> series1 = new XYChart.Series<>();
-            series1.setName("Class Scheduled");
-            series1.getData().add(new XYChart.Data<>("CSE 1101", 20));
-            series1.getData().add(new XYChart.Data<>("CSE 1201", 45));
-            series1.getData().add(new XYChart.Data<>("CSE 2101", 23));
-            barchart.getData().add(series1);
+        XYChart.Series<String, Number> series1 = new XYChart.Series<>();
+        series1.setName("Class Scheduled");
+        
+            try{
+                  String sql= "SELECT courses.course_no, course_teacher.scheduled, course_teacher.taken FROM courses JOIN course_teacher JOIN teachers ON course_teacher.course_id= courses.id and course_teacher.teacher_id=teachers.id WHERE teachers.Islogin= true";
+                 
+                  statement= con.prepareStatement(sql);
+                 
+                  
+                  result=statement.executeQuery();
+                  
+                  while(result.next()){
+                     int nn= result.getInt("scheduled");
+                     int nm= result.getInt("taken");
+                     String pp= result.getString("course_no");
+                     series1.getData().add(new XYChart.Data<>(pp, nn));
+                     series.getData().add(new XYChart.Data<>(pp, nm));
+               
+                  }
+                  
+                  barchart.getData().add(series);
+                   barchart.getData().add(series1);
+                  
+                 
+             }
+             catch(SQLException ex){
+                 alertbox("Not connected");
+                 
+             }
+            
+         
+           
     }
     
     
