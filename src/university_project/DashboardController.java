@@ -137,6 +137,9 @@ public class DashboardController implements Initializable {
     public String dt;
 
     public Integer Cid;
+    public Integer Tid;
+    public Integer numAttClass;
+    ArrayList<Integer> presentNew_id = new ArrayList<>();
 
     /**
      * Initializes the controller class.
@@ -214,7 +217,7 @@ public class DashboardController implements Initializable {
 
     public void table() {
         ArrayList<Integer> present_id = new ArrayList<>();
-        ArrayList<Integer> presentNew_id = new ArrayList<>();
+
         colRoll.setCellValueFactory(new PropertyValueFactory<Student, Integer>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<Student, String>("name"));
         colEmail.setCellValueFactory(new PropertyValueFactory<Student, String>("email"));
@@ -258,7 +261,7 @@ public class DashboardController implements Initializable {
         }
 
         btnsubmit.setOnAction(event -> {
-            // This loop belongs to find the id of every roll number from databse and store it presentNew_id arrayList
+            // This loop belongs to find the id of every roll number from database and store it presentNew_id arrayList
             for (Integer i : present_id) {
                 System.out.println(i);
                 try {
@@ -311,6 +314,21 @@ public class DashboardController implements Initializable {
                 }
 
             }
+            // This will updated number of taken class
+            try {
+                String sql = "UPDATE course_teacher SET taken=taken+1 WHERE teacher_id=? AND course_id=?";
+                statement = con.prepareStatement(sql);
+
+                statement.setInt(1, Tid);
+                statement.setInt(2, Cid);
+                //statement.setString(2, username);
+                int rows = statement.executeUpdate();
+                if (rows > 0) {
+                    System.out.println("Updated Succesfully taken class");
+                }
+            } catch (SQLException ex) {
+                alertbox("No");
+            }
             tableView.getColumns().clear();
         });
     }
@@ -321,6 +339,25 @@ public class DashboardController implements Initializable {
         colEmailR.setCellValueFactory(new PropertyValueFactory<>("Email"));
         colPhoneR.setCellValueFactory(new PropertyValueFactory<>("Phone"));
         colPercentageR.setCellValueFactory(new PropertyValueFactory<>("Percentage"));
+
+//        for (Integer i : presentNew_id) {
+//
+//            try {
+//                String sq = "SELECT COUNT(is_present) FROM attendances WHERE course_id=? AND student_id=?";
+//                statement = con.prepareStatement(sq);
+//                statement.setInt(1, Cid);
+//                statement.setInt(2, i);
+//                System.out.println(numAttClass);
+//                result = statement.executeQuery();
+//                if (result.next()) {
+//                    numAttClass = result.getInt("is_present");
+//                    System.out.println(numAttClass);
+//                }
+//            } catch (SQLException ex) {
+//
+//            }
+//
+//        }
         try {
 
             String sq = "SELECT students.roll, students.name, students.email, students.phone FROM `students` JOIN course_student JOIN courses ON students.id= course_student.student_id AND course_student.course_id=courses.id AND courses.course_no=?";
@@ -385,6 +422,7 @@ public class DashboardController implements Initializable {
 
                 teacherUname.setText(result.getString("name"));
                 teacherEmail.setText(result.getString("email"));
+                Tid = result.getInt("id");
             }
 
         } catch (SQLException ex) {
