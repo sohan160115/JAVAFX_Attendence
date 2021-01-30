@@ -63,7 +63,7 @@ public class DashboardController implements Initializable {
     private Label teacherUname;
     @FXML
     private Label teacherEmail;
-    
+
     Connection con;
     Statement st;
     PreparedStatement statement;
@@ -112,8 +112,8 @@ public class DashboardController implements Initializable {
     private ComboBox<String> combobox;
     ObservableList<String> options = FXCollections.observableArrayList();
     ObservableList<String> optionsR = FXCollections.observableArrayList();
-    
-    Boolean ck=true;
+
+    Boolean ck = true;
     @FXML
     private Button btnsubmit;
     @FXML
@@ -130,346 +130,344 @@ public class DashboardController implements Initializable {
     private TableColumn<AttR, String> colPhoneR;
     @FXML
     private TableColumn<AttR, Integer> colPercentageR;
-    
+
     @FXML
     DatePicker date;
-   
+
     public String dt;
-    
-    
+
+    public Integer Cid;
+
     /**
      * Initializes the controller class.
-     * 
-     * 
-     * 
+     *
+     *
+     *
      */
-  
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
+
         Connect();
         getUnameEmail();
         barchartf();
         totalStudentsf();
         ScheduledLogged();
-         pane1.toFront();
-         //table();
-         fillCombobox();
-         fillComboboxR();
-       
-        
-        
-    }   
-   
-    public void showDate(ActionEvent event){
-        LocalDate ld= date.getValue();
-        //System.out.println(ld);
-        dt= ld.toString();
-    }
-    
-     public void Connect(){
-        try {
-            con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
-        } catch (SQLException ex) {
-             alertbox("Not connected to ");
-        }
-    }
-     
-     public void fillCombobox(){
-         
-        try {
-            String sq= "SELECT id,course_no from courses";
-            statement= con.prepareStatement(sq);
-            result= statement.executeQuery(sq);
-             while(result.next()){
-                            
-                              String name= result.getString("course_no");
-                              Integer id = result.getInt("id");
-                              options.add(name);
-                              
-                              
-                          }
-             combobox.setItems(options);
-        } catch (SQLException ex) {
-           alertbox("Not ");
-        }
-        
-        
-        
-     }
-     
-     public void fillComboboxR(){
-                 try {
-            String sq= "SELECT id,course_no from courses";
-            statement= con.prepareStatement(sq);
-            result= statement.executeQuery(sq);
-             while(result.next()){
-                            
-                              String name= result.getString("course_no");
-                              Integer id = result.getInt("id");
-                              optionsR.add(name);
-                              
-                              
-                          }
-             comboboxR.setItems(optionsR);
-        } catch (SQLException ex) {
-           alertbox("No");
-        }
-     }
-    
-     
-     
-     
-     public void table(){
-         ArrayList<Integer> present_id=new ArrayList<>();
-         colRoll.setCellValueFactory(new PropertyValueFactory<Student,Integer>("id"));
-         colName.setCellValueFactory(new PropertyValueFactory<Student,String>("name"));
-         colEmail.setCellValueFactory(new PropertyValueFactory<Student,String>("email"));
-         colPhone.setCellValueFactory(new PropertyValueFactory<Student,String>("phone"));
-         colPresent.setCellValueFactory(new PropertyValueFactory<Student,CheckBox>("checkbox"));
-         
-         ObservableList<Student> data= FXCollections.observableArrayList();
-         String course= combobox.getSelectionModel().getSelectedItem();
-         
-         
-         try{
-                          
-                           String sq="SELECT students.roll, students.name, students.email, students.phone FROM `students` JOIN course_student JOIN courses ON students.id= course_student.student_id AND course_student.course_id=courses.id AND courses.course_no=?";
-                           statement= con.prepareStatement(sq);
-                          
-                           statement.setString(1,combobox.getSelectionModel().getSelectedItem());
-                          result= statement.executeQuery();
-                          
+        pane1.toFront();
+        //table();
+        fillCombobox();
+        fillComboboxR();
 
-                          ObservableList<Att> students= FXCollections.observableArrayList();
-                          
-                          while(result.next()){
-                              Student std=new Student();
-                              int id= result.getInt("roll");
-                              std.id=new SimpleIntegerProperty(result.getInt("roll"));
-                              std.name=new SimpleStringProperty(result.getString("name"));
-                              std.email=new SimpleStringProperty(result.getString("email"));
-                              std.phone=new SimpleStringProperty(result.getString("phone"));
-                              
-                              std.getCheckbox().setOnAction(event -> {
-                                      if(std.getCheckbox().isSelected()){
-                                               present_id.add(id);
-                                            }
-                                      else{
-                                        present_id.remove(id);
-                                      }
-                                });
-                           data.add(std);
-                          }
-                            tableView.getColumns().clear();
-                           tableView.getColumns().addAll(colRoll,colName,colEmail,colPhone,colPresent);
-                           tableView.setItems(data);
-                          //tableView.setItems(students);
-                       }
-                       catch(SQLException ex){
-                           alertbox("Not connected to the databasetabel");
-                       }
-         btnsubmit.setOnAction(event -> {
-           
-             System.out.println(dt);
-             Integer Cid;
-            //System.out.println(course);
-                   try {
-            String sq= "SELECT id from courses WHERE course_no=?";
-            statement= con.prepareStatement(sq);
-            statement.setString(1,course);
-            result= statement.executeQuery();
-            
-                         if(result.next()){
-                             Cid=result.getInt("id");
-                            System.out.println("Course id "+ Cid);
-                       } 
-        } catch (SQLException ex) {
-           alertbox("No");
-        }
-            for (Integer i : present_id) {
-                 System.out.println(i);
-             
-                 
-                
     }
+
+    public void showDate(ActionEvent event) {
+        LocalDate ld = date.getValue();
+        //System.out.println(ld);
+        dt = ld.toString();
+    }
+
+    public void Connect() {
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://localhost/attendence", "root", "");
+        } catch (SQLException ex) {
+            alertbox("Not connected to ");
+        }
+    }
+
+    public void fillCombobox() {
+
+        try {
+            String sq = "SELECT id,course_no from courses";
+            statement = con.prepareStatement(sq);
+            result = statement.executeQuery(sq);
+            while (result.next()) {
+
+                String name = result.getString("course_no");
+                Integer id = result.getInt("id");
+                options.add(name);
+
+            }
+            combobox.setItems(options);
+        } catch (SQLException ex) {
+            alertbox("Not ");
+        }
+
+    }
+
+    public void fillComboboxR() {
+        try {
+            String sq = "SELECT id,course_no from courses";
+            statement = con.prepareStatement(sq);
+            result = statement.executeQuery(sq);
+            while (result.next()) {
+
+                String name = result.getString("course_no");
+                Integer id = result.getInt("id");
+                optionsR.add(name);
+
+            }
+            comboboxR.setItems(optionsR);
+        } catch (SQLException ex) {
+            alertbox("No");
+        }
+    }
+
+    public void table() {
+        ArrayList<Integer> present_id = new ArrayList<>();
+        ArrayList<Integer> presentNew_id = new ArrayList<>();
+        colRoll.setCellValueFactory(new PropertyValueFactory<Student, Integer>("id"));
+        colName.setCellValueFactory(new PropertyValueFactory<Student, String>("name"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<Student, String>("email"));
+        colPhone.setCellValueFactory(new PropertyValueFactory<Student, String>("phone"));
+        colPresent.setCellValueFactory(new PropertyValueFactory<Student, CheckBox>("checkbox"));
+
+        ObservableList<Student> data = FXCollections.observableArrayList();
+        String course = combobox.getSelectionModel().getSelectedItem();
+        //Integer Cid;
+        try {
+            String sq = "SELECT students.roll, students.name, students.email, students.phone FROM `students` JOIN course_student JOIN courses ON students.id= course_student.student_id AND course_student.course_id=courses.id AND courses.course_no=?";
+            statement = con.prepareStatement(sq);
+
+            statement.setString(1, combobox.getSelectionModel().getSelectedItem());
+            result = statement.executeQuery();
+            ObservableList<Att> students = FXCollections.observableArrayList();
+
+            while (result.next()) {
+                Student std = new Student();
+                int id = result.getInt("roll");
+                std.id = new SimpleIntegerProperty(result.getInt("roll"));
+                std.name = new SimpleStringProperty(result.getString("name"));
+                std.email = new SimpleStringProperty(result.getString("email"));
+                std.phone = new SimpleStringProperty(result.getString("phone"));
+
+                std.getCheckbox().setOnAction(event -> {
+                    if (std.getCheckbox().isSelected()) {
+                        present_id.add(id);
+                    } else {
+                        present_id.remove(id);
+                    }
+                });
+                data.add(std);
+            }
+            tableView.getColumns().clear();
+            tableView.getColumns().addAll(colRoll, colName, colEmail, colPhone, colPresent);
+            tableView.setItems(data);
+            //tableView.setItems(students);
+        } catch (SQLException ex) {
+            alertbox("Not connected to the databasetabel");
+        }
+
+        btnsubmit.setOnAction(event -> {
+            // This loop belongs to find the id of every roll number from databse and store it presentNew_id arrayList
+            for (Integer i : present_id) {
+                System.out.println(i);
+                try {
+                    String sq = "SELECT id from students WHERE roll=?";
+                    statement = con.prepareStatement(sq);
+                    statement.setInt(1, i);
+                    result = statement.executeQuery();
+
+                    if (result.next()) {
+                        presentNew_id.add(result.getInt("id"));
+
+                    }
+                } catch (SQLException ex) {
+                    alertbox("No");
+                }
+            }
+            // It find the course id
+            try {
+                String sq = "SELECT id from courses WHERE course_no=?";
+                statement = con.prepareStatement(sq);
+                statement.setString(1, course);
+                result = statement.executeQuery();
+
+                if (result.next()) {
+                    Cid = result.getInt("id");
+
+                }
+            } catch (SQLException ex) {
+                alertbox("No");
+            }
+            // Insert into database
+            for (Integer i : presentNew_id) {
+                try {
+                    String sq = "INSERT into attendances(course_id,student_id,is_present,class_date)" + "VALUES(?,?,?,?)";
+                    statement = con.prepareStatement(sq);
+
+                    statement.setInt(1, Cid);
+                    statement.setInt(2, i);
+                    statement.setInt(3, 1);
+                    statement.setString(4, dt);
+
+                    int rows = statement.executeUpdate();
+
+                    if (rows > 0) {
+
+                        System.out.println("Your information added");
+                    }
+                } catch (SQLException ex) {
+                    alertbox("No");
+                }
+
+            }
+            tableView.getColumns().clear();
         });
     }
-         
-     public void tableR(){
-         colRollR.setCellValueFactory(new PropertyValueFactory<>("Roll"));
-         colNameR.setCellValueFactory(new PropertyValueFactory<>("Name"));
-         colEmailR.setCellValueFactory(new PropertyValueFactory<>("Email"));
-         colPhoneR.setCellValueFactory(new PropertyValueFactory<>("Phone"));
-         colPercentageR.setCellValueFactory(new PropertyValueFactory<>("Percentage"));
-          try{
-                          
-                           String sq="SELECT students.roll, students.name, students.email, students.phone FROM `students` JOIN course_student JOIN courses ON students.id= course_student.student_id AND course_student.course_id=courses.id AND courses.course_no=?";
-                           statement= con.prepareStatement(sq);
-                            statement.setString(1,comboboxR.getSelectionModel().getSelectedItem());
-                          result= statement.executeQuery();
-                          while(result.next()){
-                              int roll= result.getInt("roll");
-                              String name= result.getString("name");
-                              String email= result.getString("email");
-                              String phone= result.getString("phone");
-                              AttR attr= new AttR(roll,name,email, phone,90);
-                               TableViewR.getItems().add(attr);
-                          }
-                         
-                          
-                       }
-                       catch(SQLException ex){
-                           alertbox("Not connected to the databasetableR");
-                       }
-     }
-     
-    
-     
-     
+
+    public void tableR() {
+        colRollR.setCellValueFactory(new PropertyValueFactory<>("Roll"));
+        colNameR.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        colEmailR.setCellValueFactory(new PropertyValueFactory<>("Email"));
+        colPhoneR.setCellValueFactory(new PropertyValueFactory<>("Phone"));
+        colPercentageR.setCellValueFactory(new PropertyValueFactory<>("Percentage"));
+        try {
+
+            String sq = "SELECT students.roll, students.name, students.email, students.phone FROM `students` JOIN course_student JOIN courses ON students.id= course_student.student_id AND course_student.course_id=courses.id AND courses.course_no=?";
+            statement = con.prepareStatement(sq);
+            statement.setString(1, comboboxR.getSelectionModel().getSelectedItem());
+            result = statement.executeQuery();
+            while (result.next()) {
+                int roll = result.getInt("roll");
+                String name = result.getString("name");
+                String email = result.getString("email");
+                String phone = result.getString("phone");
+                AttR attr = new AttR(roll, name, email, phone, 90);
+                TableViewR.getItems().add(attr);
+            }
+
+        } catch (SQLException ex) {
+            alertbox("Not connected to the databasetableR");
+        }
+    }
 
     @FXML
     private void logoutAction(ActionEvent event) {
-                       try{ 
-                            String sq="UPDATE teachers SET Islogin=? where Islogin=?";
-                           statement= con.prepareStatement(sq);
-                           statement.setBoolean(1,false);
-                           statement.setBoolean(2,true);
-                          int rows= statement.executeUpdate();
-                       }
-                       catch(SQLException ex){
-                           alertbox("Not connected to the databaselogout");
-                       }
-              Stage stage = (Stage) btnLogout.getScene().getWindow(); 
-              stage.close();
-              stageChange("FXMLDocument.fxml");
-             
+        try {
+            String sq = "UPDATE teachers SET Islogin=? where Islogin=?";
+            statement = con.prepareStatement(sq);
+            statement.setBoolean(1, false);
+            statement.setBoolean(2, true);
+            int rows = statement.executeUpdate();
+        } catch (SQLException ex) {
+            alertbox("Not connected to the databaselogout");
+        }
+        Stage stage = (Stage) btnLogout.getScene().getWindow();
+        stage.close();
+        stageChange("FXMLDocument.fxml");
+
     }
-    
-    public void stageChange(String msg){
-          try{
+
+    public void stageChange(String msg) {
+        try {
             Stage stage = new Stage();
-        FXMLLoader fxmlloader= new FXMLLoader();
-        Pane root = fxmlloader.load(getClass().getResource(msg).openStream());
-        stage.setScene(new Scene(root));
-        stage.showAndWait();
-        }
-        
-        catch(IOException e){
+            FXMLLoader fxmlloader = new FXMLLoader();
+            Pane root = fxmlloader.load(getClass().getResource(msg).openStream());
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (IOException e) {
             e.printStackTrace();
-            
+
         }
     }
-    public void getUnameEmail(){
+
+    public void getUnameEmail() {
         boolean Islogin = true;
-         try{
-                  
-                  String sql= "SELECT * from teachers where Islogin=?";
-                 
-                  statement= con.prepareStatement(sql);
-                 
-                  statement.setBoolean(1, Islogin);
-                  result=statement.executeQuery();
-                  if(result.next()){
-                      
-                   
-                      teacherUname.setText(result.getString("name"));
-                      teacherEmail.setText(result.getString("email"));
-                  }
-                   
-                  
-                 
-             }
-             catch(SQLException ex){
-                 alertbox("Not connected to the databaseUname");
-                 
-             }
+        try {
+
+            String sql = "SELECT * from teachers where Islogin=?";
+
+            statement = con.prepareStatement(sql);
+
+            statement.setBoolean(1, Islogin);
+            result = statement.executeQuery();
+            if (result.next()) {
+
+                teacherUname.setText(result.getString("name"));
+                teacherEmail.setText(result.getString("email"));
+            }
+
+        } catch (SQLException ex) {
+            alertbox("Not connected to the databaseUname");
+
+        }
     }
-    public void totalStudentsf(){
-          try{
-                  String sql= "SELECT COUNT(*) as studentCount from students";
-                 
-                  statement= con.prepareStatement(sql);
-                 
-                  
-                  result=statement.executeQuery();
-                  
-                  if(result.next()){
-                     int nn= result.getInt("studentCount");
-                     String s=String.valueOf(nn);
-                      totalStudents.setText(s);
-                  }
-                  
-                 
-             }
-             catch(SQLException ex){
-                 alertbox("Not connected to the databasetotalst");
-                 
-             }
+
+    public void totalStudentsf() {
+        try {
+            String sql = "SELECT COUNT(*) as studentCount from students";
+
+            statement = con.prepareStatement(sql);
+
+            result = statement.executeQuery();
+
+            if (result.next()) {
+                int nn = result.getInt("studentCount");
+                String s = String.valueOf(nn);
+                totalStudents.setText(s);
+            }
+
+        } catch (SQLException ex) {
+            alertbox("Not connected to the databasetotalst");
+
+        }
     }
-    
-    public void ScheduledLogged(){
-                  try{
-                  String sql= "SELECT course_teacher.scheduled, course_teacher.taken FROM course_teacher JOIN teachers on teachers.id= course_teacher.teacher_id AND teachers.Islogin= true";
-                 
-                  statement= con.prepareStatement(sql);
-                 
-                  
-                  result=statement.executeQuery();
-                  
-                  if(result.next()){
-                     int nn= result.getInt("scheduled");
-                     int nm= result.getInt("taken");
-                     String n=String.valueOf(nn);
-                     String m= String.valueOf(nm);
-                      Scheduled.setText(n);
-                      logged.setText(m);
-                  }
-                  
-                 
-             }
-             catch(SQLException ex){
-                 alertbox("Not connected");
-                 
-             }
+
+    public void ScheduledLogged() {
+        try {
+            String sql = "SELECT course_teacher.scheduled, course_teacher.taken FROM course_teacher JOIN teachers on teachers.id= course_teacher.teacher_id AND teachers.Islogin= true";
+
+            statement = con.prepareStatement(sql);
+
+            result = statement.executeQuery();
+
+            if (result.next()) {
+                int nn = result.getInt("scheduled");
+                int nm = result.getInt("taken");
+                String n = String.valueOf(nn);
+                String m = String.valueOf(nm);
+                Scheduled.setText(n);
+                logged.setText(m);
+            }
+
+        } catch (SQLException ex) {
+            alertbox("Not connected");
+
+        }
     }
-    public void barchartf(){
-        
+
+    public void barchartf() {
+
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Class Logged");
         XYChart.Series<String, Number> series1 = new XYChart.Series<>();
         series1.setName("Class Scheduled");
-        
-            try{
-                  String sql= "SELECT courses.course_no, course_teacher.scheduled, course_teacher.taken FROM courses JOIN course_teacher JOIN teachers ON course_teacher.course_id= courses.id and course_teacher.teacher_id=teachers.id WHERE teachers.Islogin= true";
-                 
-                  statement= con.prepareStatement(sql);
-                 
-                  
-                  result=statement.executeQuery();
-                  
-                  while(result.next()){
-                     int nn= result.getInt("scheduled");
-                     int nm= result.getInt("taken");
-                     String pp= result.getString("course_no");
-                     series1.getData().add(new XYChart.Data<>(pp, nn));
-                     series.getData().add(new XYChart.Data<>(pp, nm));
-               
-                  }
-                  
-                  barchart.getData().add(series);
-                   barchart.getData().add(series1);
-                  
-                 
-             }
-             catch(SQLException ex){
-                 alertbox("Not connected");
-                 
-             }
+
+        try {
+            String sql = "SELECT courses.course_no, course_teacher.scheduled, course_teacher.taken FROM courses JOIN course_teacher JOIN teachers ON course_teacher.course_id= courses.id and course_teacher.teacher_id=teachers.id WHERE teachers.Islogin= true";
+
+            statement = con.prepareStatement(sql);
+
+            result = statement.executeQuery();
+
+            while (result.next()) {
+                int nn = result.getInt("scheduled");
+                int nm = result.getInt("taken");
+                String pp = result.getString("course_no");
+                series1.getData().add(new XYChart.Data<>(pp, nn));
+                series.getData().add(new XYChart.Data<>(pp, nm));
+
+            }
+
+            barchart.getData().add(series);
+            barchart.getData().add(series1);
+
+        } catch (SQLException ex) {
+            alertbox("Not connected");
+
+        }
     }
-    
-    
+
     @FXML
     private void dashboardAction(ActionEvent event) {
         pane1.toFront();
@@ -478,11 +476,11 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void AttendenceSheetAction(ActionEvent event) {
-        
+
         pane2.toFront();
-       // table();
-       tableView.getColumns().clear();
-       
+        // table();
+        tableView.getColumns().clear();
+
     }
 
     @FXML
@@ -497,22 +495,20 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void setOnAction(ActionEvent event) {
-        if(ck){
-          //tableView.getItems().clear();
-           tableView.getColumns().clear();
-           table();
+        if (ck) {
+            //tableView.getItems().clear();
+            tableView.getColumns().clear();
+            table();
         }
-       
-       
-        
+
     }
 
     @FXML
     private void setOnActionR(ActionEvent event) {
-        if(ck){
-          TableViewR.getItems().clear();
-           tableR();
+        if (ck) {
+            TableViewR.getItems().clear();
+            tableR();
         }
     }
-    
+
 }
