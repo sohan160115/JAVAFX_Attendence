@@ -138,8 +138,30 @@ public class DashboardController implements Initializable {
 
     public Integer Cid;
     public Integer Tid;
+    public Integer Cid1;
     public Integer numAttClass;
+    public static int takenClass;
+    public String course1;
+
     ArrayList<Integer> presentNew_id = new ArrayList<>();
+    ArrayList<Integer> Atten = new ArrayList<>();
+    ArrayList<Integer> AttenId = new ArrayList<>();
+    public ArrayList<Integer> AttenPercentage = new ArrayList<>();
+    public ArrayList<Integer> XYZ = new ArrayList<>();
+    public ArrayList<Integer> Absent = new ArrayList<>();
+    @FXML
+    private TableView<Log> tableViewL;
+    @FXML
+    private TableColumn<Log, String> colCourseCode;
+    @FXML
+    private TableColumn<Log, String> colCourseTitle;
+
+    @FXML
+    private TableColumn<Log, Integer> colAttStudent;
+    @FXML
+    private TableColumn<Log, String> colConductedAt;
+
+    HashMap<Integer, Integer> percent_attended = new HashMap<Integer, Integer>();
 
     /**
      * Initializes the controller class.
@@ -163,6 +185,7 @@ public class DashboardController implements Initializable {
 
     }
 
+    @FXML
     public void showDate(ActionEvent event) {
         LocalDate ld = date.getValue();
         //System.out.println(ld);
@@ -248,6 +271,7 @@ public class DashboardController implements Initializable {
                         present_id.add(id);
                     } else {
                         present_id.remove(id);
+                        //Absent.add(id);
                     }
                 });
                 data.add(std);
@@ -334,47 +358,181 @@ public class DashboardController implements Initializable {
     }
 
     public void tableR() {
+
         colRollR.setCellValueFactory(new PropertyValueFactory<>("Roll"));
         colNameR.setCellValueFactory(new PropertyValueFactory<>("Name"));
         colEmailR.setCellValueFactory(new PropertyValueFactory<>("Email"));
         colPhoneR.setCellValueFactory(new PropertyValueFactory<>("Phone"));
         colPercentageR.setCellValueFactory(new PropertyValueFactory<>("Percentage"));
+        //this.AttenPercentage.add(65);
 
-//        for (Integer i : presentNew_id) {
-//
-//            try {
-//                String sq = "SELECT COUNT(is_present) FROM attendances WHERE course_id=? AND student_id=?";
-//                statement = con.prepareStatement(sq);
-//                statement.setInt(1, Cid);
-//                statement.setInt(2, i);
-//                System.out.println(numAttClass);
-//                result = statement.executeQuery();
-//                if (result.next()) {
-//                    numAttClass = result.getInt("is_present");
-//                    System.out.println(numAttClass);
-//                }
-//            } catch (SQLException ex) {
-//
-//            }
-//
-//        }
         try {
 
             String sq = "SELECT students.roll, students.name, students.email, students.phone FROM `students` JOIN course_student JOIN courses ON students.id= course_student.student_id AND course_student.course_id=courses.id AND courses.course_no=?";
             statement = con.prepareStatement(sq);
             statement.setString(1, comboboxR.getSelectionModel().getSelectedItem());
+            course1 = comboboxR.getSelectionModel().getSelectedItem();
             result = statement.executeQuery();
+            int j = 0;
             while (result.next()) {
                 int roll = result.getInt("roll");
                 String name = result.getString("name");
                 String email = result.getString("email");
                 String phone = result.getString("phone");
+                Atten.add(roll);
+                //System.out.println(this.AttenPercentage.get(0));
+                j++;
                 AttR attr = new AttR(roll, name, email, phone, 90);
                 TableViewR.getItems().add(attr);
             }
 
         } catch (SQLException ex) {
             alertbox("Not connected to the databasetableR");
+        }
+
+        // It find the Student id
+        for (Integer i : Atten) {
+
+            try {
+                String sq = "SELECT id from students WHERE roll=?";
+                statement = con.prepareStatement(sq);
+                statement.setInt(1, i);
+                result = statement.executeQuery();
+                //System.out.println("Roll" + i);
+                if (result.next()) {
+                    AttenId.add(result.getInt("id"));
+                    //System.out.println(result.getInt("id"));
+
+                }
+
+            } catch (SQLException ex) {
+                alertbox("Not connected to the databasetableR");
+            }
+
+        }
+        // It find the course Id
+        try {
+            String sq = "SELECT id from courses WHERE course_no=?";
+            statement = con.prepareStatement(sq);
+            statement.setString(1, course1);
+            result = statement.executeQuery();
+
+            if (result.next()) {
+                Cid1 = result.getInt("id");
+                //System.out.println("Course Id " + Cid1);
+
+            }
+        } catch (SQLException ex) {
+            alertbox("No");
+        }
+        // Count the students attendence
+        for (Integer i : AttenId) {
+            try {
+                String sq = "SELECT COUNT(is_present) from attendances WHERE attendances.course_id=? AND attendances.student_id=? AND attendances.is_present=1 ";
+
+                statement = con.prepareStatement(sq);
+
+                statement.setInt(1, Cid1);
+                statement.setInt(2, i);
+                result = statement.executeQuery();
+                result.next();
+                //System.out.println("Count" + result.getInt(1));
+                int tt = result.getInt(1);
+                //this.percent_attended.put(i,this.calc(tt));
+                //System.out.println(this.calc(tt));
+                //calc(result.getInt(1));
+                int xx = this.calc(tt);
+                //System.out.println("SSS " + xx);
+                this.AttenPercentage.add(xx);
+
+            } catch (SQLException ex) {
+                alertbox("Notttttt");
+            }
+        }
+
+//        try {
+//            String sq = "SELECT taken from course_teacher WHERE course_id=? AND teacher_id=?";
+//
+//            statement = con.prepareStatement(sq);
+//
+//            statement.setInt(1, Cid1);
+//            statement.setInt(2, Tid);
+//            result = statement.executeQuery();
+//            //result.next();
+//            //System.out.println("Count" + result.getInt(1));
+//
+//            if (result.next()) {
+//                //System.out.println(result.getInt("taken"));
+//                takenClass = result.getInt("taken");
+//                System.out.println("TakenClass" + takenClass);
+//
+//            }
+//        } catch (SQLException ex) {
+//            alertbox("Notttttt");
+//        }
+//        for (Integer i : AttenPercentage) {
+//            System.out.println(i);
+//        }
+        System.out.println(this.AttenPercentage);
+
+    }
+
+    public int calc(int AttenClass) {
+
+        try {
+            String sq = "SELECT taken from course_teacher WHERE course_id=? AND teacher_id=?";
+
+            statement = con.prepareStatement(sq);
+
+            statement.setInt(1, Cid1);
+            statement.setInt(2, Tid);
+            result = statement.executeQuery();
+            //result.next();
+            //System.out.println("Count" + result.getInt(1));
+
+            if (result.next()) {
+                //System.out.println(result.getInt("taken"));
+                takenClass = result.getInt("taken");
+                //System.out.println("TakenClass" + takenClass);
+
+            }
+        } catch (SQLException ex) {
+            alertbox("Notttttt");
+        }
+        //System.out.println(" Calc Funtion" + takenClass);
+        float ans = ((float) AttenClass / (float) takenClass) * 100;
+
+        return (int) ans;
+        // System.out.println(ans);
+
+    }
+
+    public void tableL() {
+        //System.out.println(Tid);
+        colCourseCode.setCellValueFactory(new PropertyValueFactory<>("Course_no"));
+        colCourseTitle.setCellValueFactory(new PropertyValueFactory<>("Course_title"));
+        colAttStudent.setCellValueFactory(new PropertyValueFactory<>("Attendent_Student"));
+        colConductedAt.setCellValueFactory(new PropertyValueFactory<>("Conducted_At"));
+
+        try {
+            String sq = "SELECT course_no, course_title, conducted_at,attended_students FROM class_logs JOIN courses ON class_logs.course_id=courses.id AND class_logs.teacher_id=1";
+            statement = con.prepareStatement(sq);
+            System.out.println(Tid);
+            //statement.setInt(1, Tid);
+            result = statement.executeQuery();
+
+            while (result.next()) {
+                Log log = new Log();
+                log.Course_no = new SimpleStringProperty(result.getString("course_no"));
+                log.Course_title = new SimpleStringProperty(result.getString("course_no"));
+                log.Conducted_At = new SimpleStringProperty(result.getString("conducted_at"));
+                log.Attendent_Student = new SimpleIntegerProperty(result.getInt("attended_students"));
+
+                tableViewL.getItems().add(log);
+
+            }
+        } catch (SQLException ex) {
+            alertbox("Not connected to the databasetableLog");
         }
     }
 
@@ -529,6 +687,7 @@ public class DashboardController implements Initializable {
     @FXML
     private void ClassLogAction(ActionEvent event) {
         pane4.toFront();
+        tableL();
     }
 
     @FXML
