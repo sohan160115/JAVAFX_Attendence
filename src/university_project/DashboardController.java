@@ -146,8 +146,8 @@ public class DashboardController implements Initializable {
     public String course1;
 
     ArrayList<Integer> presentNew_id = new ArrayList<>();
-    ArrayList<Integer> Atten = new ArrayList<>();
-    ArrayList<Integer> AttenId = new ArrayList<>();
+    ArrayList<Integer> Atten = new ArrayList<>();// This array list return students roll
+    ArrayList<Integer> AttenId = new ArrayList<>();// This array list return students id
     public ArrayList<Integer> AttenPercentage = new ArrayList<>();
     public ArrayList<Integer> XYZ = new ArrayList<>();
     public ArrayList<Integer> DbStudentId = new ArrayList<>();
@@ -336,7 +336,7 @@ public class DashboardController implements Initializable {
 
                 statement.setInt(1, Tid);
                 statement.setInt(2, Cid);
-                //statement.setString(2, username);
+
                 int rows = statement.executeUpdate();
                 if (rows > 0) {
                     System.out.println("Updated Succesfully taken class");
@@ -393,10 +393,9 @@ public class DashboardController implements Initializable {
                 statement = con.prepareStatement(sq);
                 statement.setInt(1, i);
                 result = statement.executeQuery();
-                //System.out.println("Roll" + i);
+
                 if (result.next()) {
                     AttenId.add(result.getInt("id"));
-                    //System.out.println(result.getInt("id"));
 
                 }
 
@@ -414,7 +413,6 @@ public class DashboardController implements Initializable {
 
             if (result.next()) {
                 Cid1 = result.getInt("id");
-                //System.out.println("Course Id " + Cid1);
 
             }
         } catch (SQLException ex) {
@@ -431,51 +429,28 @@ public class DashboardController implements Initializable {
                 statement.setInt(2, i);
                 result = statement.executeQuery();
                 result.next();
-                //System.out.println("Count" + result.getInt(1));
+
                 int tt = result.getInt(1);
-                //this.percent_attended.put(i,this.calc(tt));
-                //System.out.println(this.calc(tt));
-                //calc(result.getInt(1));
+
                 int xx = this.calc(tt);
-                //System.out.println("SSS " + xx);
+
                 this.AttenPercentage.add(xx);
 
             } catch (SQLException ex) {
                 alertbox("Notttttt");
             }
         }
-
-//        try {
-//            String sq = "SELECT taken from course_teacher WHERE course_id=? AND teacher_id=?";
-//
-//            statement = con.prepareStatement(sq);
-//
-//            statement.setInt(1, Cid1);
-//            statement.setInt(2, Tid);
-//            result = statement.executeQuery();
-//            //result.next();
-//            //System.out.println("Count" + result.getInt(1));
-//
-//            if (result.next()) {
-//                //System.out.println(result.getInt("taken"));
-//                takenClass = result.getInt("taken");
-//                System.out.println("TakenClass" + takenClass);
-//
-//            }
-//        } catch (SQLException ex) {
-//            alertbox("Notttttt");
-//        }
-//        for (Integer i : AttenPercentage) {
-//            System.out.println(i);
-//        }
+        // AttenPercentage is a array list where percentage are stored
         System.out.println(this.AttenPercentage);
 
     }
+// This function return the percentage list
 
     public List getList() {
-        //System.out.println("Bangla" + this.AttenPercentage);
+
         return this.AttenPercentage;
     }
+// This finction return the percentage
 
     public int calc(int AttenClass) {
 
@@ -487,28 +462,23 @@ public class DashboardController implements Initializable {
             statement.setInt(1, Cid1);
             statement.setInt(2, Tid);
             result = statement.executeQuery();
-            //result.next();
-            //System.out.println("Count" + result.getInt(1));
 
             if (result.next()) {
-                //System.out.println(result.getInt("taken"));
+
                 takenClass = result.getInt("taken");
-                //System.out.println("TakenClass" + takenClass);
 
             }
         } catch (SQLException ex) {
             alertbox("Notttttt");
         }
-        //System.out.println(" Calc Funtion" + takenClass);
+
         float ans = ((float) AttenClass / (float) takenClass) * 100;
 
         return (int) ans;
-        // System.out.println(ans);
 
     }
 
     public void tableL() {
-        //System.out.println(Tid);
         colCourseCode.setCellValueFactory(new PropertyValueFactory<>("Course_no"));
         colCourseTitle.setCellValueFactory(new PropertyValueFactory<>("Course_title"));
         colAttStudent.setCellValueFactory(new PropertyValueFactory<>("Attendent_Student"));
@@ -518,15 +488,9 @@ public class DashboardController implements Initializable {
             String sq = "SELECT course_no, course_title, conducted_at,attended_students FROM class_logs JOIN courses ON class_logs.course_id=courses.id AND class_logs.teacher_id=1";
             statement = con.prepareStatement(sq);
             System.out.println(Tid);
-            //statement.setInt(1, Tid);
             result = statement.executeQuery();
 
             while (result.next()) {
-                //Log log = new Log();
-//                log.Course_no = new SimpleStringProperty(result.getString("course_no"));
-//                log.Course_title = new SimpleStringProperty(result.getString("course_no"));
-//                log.Conducted_At = new SimpleStringProperty(result.getString("conducted_at"));
-//                log.Attendent_Student = new SimpleIntegerProperty(result.getInt("attended_students"));
                 Log log = new Log(result.getString("course_no"), result.getString("course_no"), result.getInt("attended_students"), result.getString("conducted_at"));
                 tableViewL.getItems().add(log);
 
@@ -676,6 +640,7 @@ public class DashboardController implements Initializable {
         pane2.toFront();
         // table();
         tableView.getColumns().clear();
+        alertbox("Attendence Has been succesfully recorded to the database");
 
     }
 
@@ -693,7 +658,7 @@ public class DashboardController implements Initializable {
     @FXML
     private void setOnAction(ActionEvent event) {
         if (ck) {
-            //tableView.getItems().clear();
+
             tableView.getColumns().clear();
             table();
         }
