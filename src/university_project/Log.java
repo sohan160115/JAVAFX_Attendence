@@ -20,45 +20,45 @@ public class Log {
     public SimpleIntegerProperty Attendent_Student;
     public SimpleStringProperty Conducted_At;
 
-    public Log(SimpleStringProperty Course_no, SimpleStringProperty Course_title, SimpleIntegerProperty Attendent_Student, SimpleStringProperty Conducted_At) {
-        this.Course_no = Course_no;
-        this.Course_title = Course_title;
-        //this.Date = new SimpleStringProperty(Date);
-        this.Attendent_Student = Attendent_Student;
-        this.Conducted_At = Conducted_At;
-        //this.Conducted_At= new SimpleIntegerProperty(Conducted_At);
+    public Log(String Course_no, String Course_title, int Attendent_Student, String Conducted_At) {
+        this.Course_no = new SimpleStringProperty(Course_no);
+        this.Course_title = new SimpleStringProperty(Course_title);
+
+        this.Attendent_Student = new SimpleIntegerProperty(Attendent_Student);
+        this.Conducted_At = new SimpleStringProperty(Conducted_At);
+
     }
 
     public Log() {
 
     }
 
-    public SimpleStringProperty getCourse_no() {
-        return Course_no;
+    public String getCourse_no() {
+        return Course_no.get();
     }
 
-    public void setCourse_no(SimpleStringProperty Course_no) {
-        this.Course_no = Course_no;
+    public void setCourse_no(String Course_no) {
+        this.Course_no = new SimpleStringProperty(Course_no);
     }
 
-    public SimpleStringProperty getCourse_title() {
-        return Course_title;
+    public String getCourse_title() {
+        return Course_title.get();
     }
 
-    public void setCourse_title(SimpleStringProperty Course_title) {
-        this.Course_title = Course_title;
+    public void setCourse_title(String Course_title) {
+        this.Course_title = new SimpleStringProperty(Course_title);
     }
 
-    public SimpleIntegerProperty getAttendent_Student() {
-        return Attendent_Student;
+    public int getAttendent_Student() {
+        return Attendent_Student.get();
     }
 
-    public void setAttendent_Student(SimpleIntegerProperty Attendent_Student) {
-        this.Attendent_Student = Attendent_Student;
+    public void setAttendent_Student(int Attendent_Student) {
+        this.Attendent_Student = new SimpleIntegerProperty(Attendent_Student);
     }
 
-    public SimpleStringProperty getConducted_At() {
-        return Conducted_At;
+    public String getConducted_At() {
+        return Conducted_At.get();
     }
 
     public void setConducted_At(String Conducted_At) {

@@ -136,9 +136,9 @@
             <TableView fx:id="tableViewL" layoutX="14.0" layoutY="58.0" prefHeight="386.0" prefWidth="578.0">
               <columns>
                 <TableColumn fx:id="colCourseCode" prefWidth="151.0" text="Course Code" />
-                <TableColumn fx:id="colCourseTitle" prefWidth="70.0" text="Course Title" />
-                  <TableColumn fx:id="colAttStudent" prefWidth="143.0" text="Attendent Student" />
-                  <TableColumn fx:id="colConductedAt" prefWidth="213.0" text="Conducted At" />
+                <TableColumn fx:id="colCourseTitle" prefWidth="109.0" text="Course Title" />
+                  <TableColumn fx:id="colAttStudent" prefWidth="188.0" text="Attendent Student" />
+                  <TableColumn fx:id="colConductedAt" prefWidth="129.0" text="Conducted At" />
               </columns>
             </TableView>
          </children></Pane>

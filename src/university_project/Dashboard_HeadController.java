@@ -21,6 +21,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import static university_project.FXMLDocumentController.alertbox;
@@ -37,24 +40,24 @@ public class Dashboard_HeadController implements Initializable {
     @FXML
     private Button headDashboardBtn;
     @FXML
-    private Button AttendenceSheetBtn;
-    @FXML
-    private Button AttendenceRecordsBtn;
-    @FXML
-    private Button classLogsBtn;
-    @FXML
     private Label headUname;
     @FXML
     private Label headEmail;
-    @FXML
-    private Label Scheduled;
-    @FXML
-    private Label logged;
-    
+
     Connection con;
     Statement st;
     PreparedStatement statement;
     ResultSet result;
+    @FXML
+    private TableView<HeadCons> tableView;
+    @FXML
+    private TableColumn<HeadCons, String> colTeacherName;
+    @FXML
+    private TableColumn<HeadCons, String> colCourseCode;
+    @FXML
+    private TableColumn<HeadCons, String> colTeacherEmail;
+    @FXML
+    private TableColumn<HeadCons, Integer> colPercentage;
 
     /**
      * Initializes the controller class.
@@ -64,78 +67,83 @@ public class Dashboard_HeadController implements Initializable {
         // TODO
         Connect();
         getUnameEmail();
-    }    
-    
-     public void Connect(){
+        tableHead();
+    }
+
+    public void Connect() {
         try {
-            con= DriverManager.getConnection("jdbc:mysql://localhost/attendence","root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/attendence", "root", "");
         } catch (SQLException ex) {
-             alertbox("Not connected to the database");
+            alertbox("Not connected to the database");
         }
     }
 
     @FXML
     private void logoutAction(ActionEvent event) {
-        
-         try{
-                          
-                            String sq="UPDATE heads SET Islogin=? where Islogin=?";
-                           statement= con.prepareStatement(sq);
-                           statement.setBoolean(1,false);
-                           statement.setBoolean(2,true);
-                           
-                          
-                          int rows= statement.executeUpdate();
-                       }
-                       catch(SQLException ex){
-                           alertbox("Not connected to the database");
-                       }
-         
-         Stage stage = (Stage) btnLogout.getScene().getWindow(); 
-              stage.close();
-              stageChange("FXMLDocument.fxml");
+
+        try {
+
+            String sq = "UPDATE heads SET Islogin=? where Islogin=?";
+            statement = con.prepareStatement(sq);
+            statement.setBoolean(1, false);
+            statement.setBoolean(2, true);
+
+            int rows = statement.executeUpdate();
+        } catch (SQLException ex) {
+            alertbox("Not connected to the database");
+        }
+
+        Stage stage = (Stage) btnLogout.getScene().getWindow();
+        stage.close();
+        stageChange("FXMLDocument.fxml");
     }
-    
-    
-    public void stageChange(String msg){
-          try{
+
+    public void stageChange(String msg) {
+        try {
             Stage stage = new Stage();
-        FXMLLoader fxmlloader= new FXMLLoader();
-        Pane root = fxmlloader.load(getClass().getResource(msg).openStream());
-        stage.setScene(new Scene(root));
-        stage.showAndWait();
-        }
-        
-        catch(IOException e){
+            FXMLLoader fxmlloader = new FXMLLoader();
+            Pane root = fxmlloader.load(getClass().getResource(msg).openStream());
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (IOException e) {
             e.printStackTrace();
-            
+
         }
     }
-    
-      public void getUnameEmail(){
+
+    public void getUnameEmail() {
         boolean Islogin = true;
-         try{
-                  
-                  String sql= "SELECT * from heads where Islogin=?";
-                 
-                  statement= con.prepareStatement(sql);
-                  statement.setBoolean(1,Islogin);
-                  
-                  result=statement.executeQuery();
-                  if(result.next()){
-                      
-                      System.out.println(result.getString("name"));
-                      headUname.setText(result.getString("name"));
-                      headEmail.setText(result.getString("email"));
-                  }
-                   
-                  
-                 
-             }
-             catch(SQLException ex){
-                 alertbox("Not connected to the database");
-                 
-             }
+        try {
+
+            String sql = "SELECT * from heads where Islogin=?";
+
+            statement = con.prepareStatement(sql);
+            statement.setBoolean(1, Islogin);
+
+            result = statement.executeQuery();
+            if (result.next()) {
+
+                System.out.println(result.getString("name"));
+                headUname.setText(result.getString("name"));
+                headEmail.setText(result.getString("email"));
+            }
+
+        } catch (SQLException ex) {
+            alertbox("Not connected to the database");
+
+        }
     }
-    
+
+    public void tableHead() {
+
+        colTeacherName.setCellValueFactory(new PropertyValueFactory<HeadCons, String>("name"));
+        colCourseCode.setCellValueFactory(new PropertyValueFactory<HeadCons, String>("course"));
+        colTeacherEmail.setCellValueFactory(new PropertyValueFactory<HeadCons, String>("email"));
+        colPercentage.setCellValueFactory(new PropertyValueFactory<HeadCons, Integer>("percentage"));
+
+        HeadCons hecon = new HeadCons("SOhan", "CSE-1201", "sohancse16@gmail.com", 80);
+
+        tableView.getItems().add(hecon);
+    }
+
 }

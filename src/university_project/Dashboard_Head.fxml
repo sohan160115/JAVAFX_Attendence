@@ -2,18 +2,17 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="622.0" prefWidth="858.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="university_project.Dashboard_HeadController">
    <children>
-      <AnchorPane layoutX="-17.0" layoutY="-20.0" prefHeight="730.0" prefWidth="154.0" style="-fx-background-color: #221A35;">
+      <AnchorPane layoutX="-17.0" layoutY="-10.0" prefHeight="730.0" prefWidth="154.0" style="-fx-background-color: #221A35;">
          <children>
-            <Button fx:id="btnLogout" layoutX="20.0" layoutY="411.0" mnemonicParsing="false" onAction="#logoutAction" prefHeight="25.0" prefWidth="124.0" text="Log Out" />
+            <Button fx:id="btnLogout" layoutX="20.0" layoutY="263.0" mnemonicParsing="false" onAction="#logoutAction" prefHeight="25.0" prefWidth="124.0" text="Log Out" />
             <Button fx:id="headDashboardBtn" layoutX="20.0" layoutY="198.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Head Dashboard" />
-            <Button fx:id="AttendenceSheetBtn" layoutX="20.0" layoutY="254.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Attendence Sheet" />
-            <Button fx:id="AttendenceRecordsBtn" layoutX="20.0" layoutY="306.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Attendence Records" />
-            <Button fx:id="classLogsBtn" layoutX="20.0" layoutY="351.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Class Logs" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="137.0" layoutY="-1.0" prefHeight="138.0" prefWidth="721.0" style="-fx-background-color: #fff;">
@@ -36,6 +35,14 @@
             </AnchorPane>
          </children>
       </AnchorPane>
+      <TableView fx:id="tableView" layoutX="174.0" layoutY="162.0" prefHeight="405.0" prefWidth="539.0">
+        <columns>
+          <TableColumn fx:id="colTeacherName" prefWidth="117.0" text="Teacher Name" />
+          <TableColumn fx:id="colCourseCode" prefWidth="117.0" text="Course" />
+            <TableColumn fx:id="colTeacherEmail" prefWidth="165.0" text="Email" />
+            <TableColumn fx:id="colPercentage" prefWidth="137.0" text="Percentage" />
+        </columns>
+      </TableView>
       
      
    </children>

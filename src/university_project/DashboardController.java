@@ -522,12 +522,12 @@ public class DashboardController implements Initializable {
             result = statement.executeQuery();
 
             while (result.next()) {
-                Log log = new Log();
-                log.Course_no = new SimpleStringProperty(result.getString("course_no"));
-                log.Course_title = new SimpleStringProperty(result.getString("course_no"));
-                log.Conducted_At = new SimpleStringProperty(result.getString("conducted_at"));
-                log.Attendent_Student = new SimpleIntegerProperty(result.getInt("attended_students"));
-
+                //Log log = new Log();
+//                log.Course_no = new SimpleStringProperty(result.getString("course_no"));
+//                log.Course_title = new SimpleStringProperty(result.getString("course_no"));
+//                log.Conducted_At = new SimpleStringProperty(result.getString("conducted_at"));
+//                log.Attendent_Student = new SimpleIntegerProperty(result.getInt("attended_students"));
+                Log log = new Log(result.getString("course_no"), result.getString("course_no"), result.getInt("attended_students"), result.getString("conducted_at"));
                 tableViewL.getItems().add(log);
 
             }
