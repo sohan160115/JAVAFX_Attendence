@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -13,6 +14,7 @@
          <children>
             <Button fx:id="btnLogout" layoutX="20.0" layoutY="263.0" mnemonicParsing="false" onAction="#logoutAction" prefHeight="25.0" prefWidth="124.0" text="Log Out" />
             <Button fx:id="headDashboardBtn" layoutX="20.0" layoutY="198.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Head Dashboard" />
+            <ImageView fx:id="imageView" fitHeight="130.0" fitWidth="132.0" layoutX="20.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="137.0" layoutY="-1.0" prefHeight="138.0" prefWidth="721.0" style="-fx-background-color: #fff;">

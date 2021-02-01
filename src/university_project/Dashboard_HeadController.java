@@ -28,6 +28,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import static university_project.FXMLDocumentController.alertbox;
@@ -62,6 +64,8 @@ public class Dashboard_HeadController implements Initializable {
     private TableColumn<HeadCons, String> colTeacherEmail;
     @FXML
     private TableColumn<HeadCons, Integer> colPercentage;
+    @FXML
+    private ImageView imageView;
 
     /**
      * Initializes the controller class.
@@ -72,6 +76,8 @@ public class Dashboard_HeadController implements Initializable {
         Connect();
         getUnameEmail();
         tableHead();
+        Image image = new Image("university_project/head.jpg");
+        imageView.setImage(image);
     }
 
     public void Connect() {

@@ -47,6 +47,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -165,6 +167,8 @@ public class DashboardController implements Initializable {
     private TableColumn<Log, String> colConductedAt;
 
     HashMap<Integer, Integer> Pre = new HashMap<Integer, Integer>();
+    @FXML
+    private ImageView imageView;
 
     /**
      * Initializes the controller class.
@@ -185,6 +189,9 @@ public class DashboardController implements Initializable {
         //table();
         fillCombobox();
         fillComboboxR();
+
+        Image image = new Image("university_project/sir.jpg");
+        imageView.setImage(image);
 
     }
 
