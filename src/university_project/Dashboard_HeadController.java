@@ -14,6 +14,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -141,9 +145,30 @@ public class Dashboard_HeadController implements Initializable {
         colTeacherEmail.setCellValueFactory(new PropertyValueFactory<HeadCons, String>("email"));
         colPercentage.setCellValueFactory(new PropertyValueFactory<HeadCons, Integer>("percentage"));
 
-        HeadCons hecon = new HeadCons("SOhan", "CSE-1201", "sohancse16@gmail.com", 80);
+        try {
+            String sq = "SELECT teachers.name, courses.course_no, teachers.email,course_teacher.scheduled,course_teacher.taken FROM teachers JOIN course_teacher JOIN courses ON teachers.id=course_teacher.teacher_id AND courses.id=course_teacher.course_id";
+            statement = con.prepareStatement(sq);
+            result = statement.executeQuery();
 
-        tableView.getItems().add(hecon);
+            while (result.next()) {
+
+                String name = result.getString("name");
+                String course_no = result.getString("course_no");
+                String email = result.getString("email");
+                int sch = result.getInt("scheduled");
+                int tkn = result.getInt("taken");
+                double per = ((double) tkn / (double) sch) * 100;
+                int per1 = (int) per;
+                //System.out.println(sch + " " + tkn + " " + per1);
+                HeadCons hecon = new HeadCons(name, course_no, email, per1);
+
+                tableView.getItems().add(hecon);
+
+            }
+
+        } catch (SQLException ex) {
+            alertbox("Not connected to the databasetabel");
+        }
     }
 
 }
