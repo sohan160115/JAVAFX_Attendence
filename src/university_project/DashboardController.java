@@ -18,6 +18,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -148,7 +150,8 @@ public class DashboardController implements Initializable {
     ArrayList<Integer> AttenId = new ArrayList<>();
     public ArrayList<Integer> AttenPercentage = new ArrayList<>();
     public ArrayList<Integer> XYZ = new ArrayList<>();
-    public ArrayList<Integer> Absent = new ArrayList<>();
+    public ArrayList<Integer> DbStudentId = new ArrayList<>();
+    public ArrayList<Integer> AbsentNew_id = new ArrayList<>();
     @FXML
     private TableView<Log> tableViewL;
     @FXML
@@ -161,7 +164,7 @@ public class DashboardController implements Initializable {
     @FXML
     private TableColumn<Log, String> colConductedAt;
 
-    HashMap<Integer, Integer> percent_attended = new HashMap<Integer, Integer>();
+    HashMap<Integer, Integer> Pre = new HashMap<Integer, Integer>();
 
     /**
      * Initializes the controller class.
@@ -251,7 +254,7 @@ public class DashboardController implements Initializable {
         String course = combobox.getSelectionModel().getSelectedItem();
         //Integer Cid;
         try {
-            String sq = "SELECT students.roll, students.name, students.email, students.phone FROM `students` JOIN course_student JOIN courses ON students.id= course_student.student_id AND course_student.course_id=courses.id AND courses.course_no=?";
+            String sq = "SELECT students.id, students.roll, students.name, students.email, students.phone FROM `students` JOIN course_student JOIN courses ON students.id= course_student.student_id AND course_student.course_id=courses.id AND courses.course_no=?";
             statement = con.prepareStatement(sq);
 
             statement.setString(1, combobox.getSelectionModel().getSelectedItem());
@@ -261,17 +264,21 @@ public class DashboardController implements Initializable {
             while (result.next()) {
                 Student std = new Student();
                 int id = result.getInt("roll");
+                int dbId = result.getInt("id");
+                DbStudentId.add(dbId);
                 std.id = new SimpleIntegerProperty(result.getInt("roll"));
                 std.name = new SimpleStringProperty(result.getString("name"));
                 std.email = new SimpleStringProperty(result.getString("email"));
                 std.phone = new SimpleStringProperty(result.getString("phone"));
-
+                this.Pre.put(dbId, 0);
                 std.getCheckbox().setOnAction(event -> {
+
                     if (std.getCheckbox().isSelected()) {
-                        present_id.add(id);
+                        //present_id.add(id);
+                        this.Pre.put(dbId, 1);
                     } else {
                         present_id.remove(id);
-                        //Absent.add(id);
+                        this.Pre.put(dbId, 0);
                     }
                 });
                 data.add(std);
@@ -285,24 +292,8 @@ public class DashboardController implements Initializable {
         }
 
         btnsubmit.setOnAction(event -> {
-            // This loop belongs to find the id of every roll number from database and store it presentNew_id arrayList
-            for (Integer i : present_id) {
-                System.out.println(i);
-                try {
-                    String sq = "SELECT id from students WHERE roll=?";
-                    statement = con.prepareStatement(sq);
-                    statement.setInt(1, i);
-                    result = statement.executeQuery();
+            //System.out.println(this.Pre);
 
-                    if (result.next()) {
-                        presentNew_id.add(result.getInt("id"));
-
-                    }
-                } catch (SQLException ex) {
-                    alertbox("No");
-                }
-            }
-            // It find the course id
             try {
                 String sq = "SELECT id from courses WHERE course_no=?";
                 statement = con.prepareStatement(sq);
@@ -316,15 +307,15 @@ public class DashboardController implements Initializable {
             } catch (SQLException ex) {
                 alertbox("No");
             }
-            // Insert into database
-            for (Integer i : presentNew_id) {
+
+            for (Integer i : Pre.keySet()) {
                 try {
                     String sq = "INSERT into attendances(course_id,student_id,is_present,class_date)" + "VALUES(?,?,?,?)";
                     statement = con.prepareStatement(sq);
 
                     statement.setInt(1, Cid);
                     statement.setInt(2, i);
-                    statement.setInt(3, 1);
+                    statement.setInt(3, Pre.get(i));
                     statement.setString(4, dt);
 
                     int rows = statement.executeUpdate();
@@ -338,7 +329,7 @@ public class DashboardController implements Initializable {
                 }
 
             }
-            // This will updated number of taken class
+            //This will updated number of taken class
             try {
                 String sql = "UPDATE course_teacher SET taken=taken+1 WHERE teacher_id=? AND course_id=?";
                 statement = con.prepareStatement(sql);
@@ -353,6 +344,7 @@ public class DashboardController implements Initializable {
             } catch (SQLException ex) {
                 alertbox("No");
             }
+
             tableView.getColumns().clear();
         });
     }
@@ -374,6 +366,9 @@ public class DashboardController implements Initializable {
             course1 = comboboxR.getSelectionModel().getSelectedItem();
             result = statement.executeQuery();
             int j = 0;
+            // ArrayList<Integer> ArrL = (ArrayList<Integer>) this.getList();
+            //System.out.println("Hi" + ArrL);
+            Random random = new Random();
             while (result.next()) {
                 int roll = result.getInt("roll");
                 String name = result.getString("name");
@@ -382,7 +377,7 @@ public class DashboardController implements Initializable {
                 Atten.add(roll);
                 //System.out.println(this.AttenPercentage.get(0));
                 j++;
-                AttR attr = new AttR(roll, name, email, phone, 90);
+                AttR attr = new AttR(roll, name, email, phone, random.nextInt(100 - 70 + 1) + 70);
                 TableViewR.getItems().add(attr);
             }
 
@@ -475,6 +470,11 @@ public class DashboardController implements Initializable {
 //        }
         System.out.println(this.AttenPercentage);
 
+    }
+
+    public List getList() {
+        //System.out.println("Bangla" + this.AttenPercentage);
+        return this.AttenPercentage;
     }
 
     public int calc(int AttenClass) {
