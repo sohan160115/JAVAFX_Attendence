@@ -351,7 +351,7 @@ public class DashboardController implements Initializable {
             } catch (SQLException ex) {
                 alertbox("No");
             }
-
+            alertbox("Attendence Has been succesfully recorded to the database");
             tableView.getColumns().clear();
         });
     }
@@ -647,7 +647,6 @@ public class DashboardController implements Initializable {
         pane2.toFront();
         // table();
         tableView.getColumns().clear();
-        alertbox("Attendence Has been succesfully recorded to the database");
 
     }
 
